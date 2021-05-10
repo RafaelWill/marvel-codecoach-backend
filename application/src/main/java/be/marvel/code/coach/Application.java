@@ -1,4 +1,4 @@
-package be.willekens.multi.module.template;
+package be.marvel.code.coach;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

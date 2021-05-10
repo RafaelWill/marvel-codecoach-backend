@@ -1,4 +1,4 @@
-package be.willekens.multi.module.template;
+package be.marvel.code.coach;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -40,3 +40,4 @@ mvnw.cmd
 
 ### loger files ###
 .log
+/log

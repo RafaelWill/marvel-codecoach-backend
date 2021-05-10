@@ -1,4 +1,4 @@
-package be.willekens.multi.module.template.configuration;
+package be.marvel.code.coach.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
