@@ -1,0 +1,26 @@
+2021-05-11 14:28:33 [main] INFO  be.marvel.code.coach.SmokeTest - Starting SmokeTest using Java 15.0.2 on FIN-9S0KTT2 with PID 6520 (started by mmaieua in C:\Users\mmaieua\Documents\Code-coach\marvel-codecoach-backend\application)
+2021-05-11 14:28:33 [main] INFO  be.marvel.code.coach.SmokeTest - No active profile set, falling back to default profiles: default
+2021-05-11 14:28:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-11 14:28:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 20 ms. Found 0 JPA repository interfaces.
+2021-05-11 14:28:41 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 7.1.1 by Redgate
+2021-05-11 14:28:41 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-05-11 14:28:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-05-11 14:28:43 [main] INFO  o.f.c.i.database.base.DatabaseType - Database: jdbc:postgresql://database-2.cuvv0osxzgmi.eu-west-3.rds.amazonaws.com:5432/miguel (PostgreSQL 12.5)
+2021-05-11 14:28:44 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.162s)
+2021-05-11 14:28:44 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Creating Schema History table "codecoach_dev"."flyway_schema_history" ...
+2021-05-11 14:28:44 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "codecoach_dev": << Empty Schema >>
+2021-05-11 14:28:44 [main] INFO  o.f.core.internal.command.DbMigrate - Migrating schema "codecoach_dev" to version "1 - user-person-table"
+2021-05-11 14:28:45 [main] INFO  o.f.core.internal.command.DbMigrate - Successfully applied 1 migration to schema "codecoach_dev" (execution time 00:01.027s)
+2021-05-11 14:28:46 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-11 14:28:46 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.29.Final
+2021-05-11 14:28:47 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-11 14:28:48 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2021-05-11 14:28:49 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-11 14:28:49 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-11 14:28:51 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-11 14:28:55 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-11 14:28:58 [main] INFO  be.marvel.code.coach.SmokeTest - Started SmokeTest in 27.351 seconds (JVM running for 34.457)
+2021-05-11 14:29:00 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-11 14:29:00 [SpringContextShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-11 14:29:00 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-05-11 14:29:00 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
