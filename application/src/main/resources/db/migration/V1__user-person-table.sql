@@ -7,9 +7,6 @@ create table "user"
     password varchar(255) not null
 );
 
-alter table "user"
-    owner to student;
-
 create unique index user_email_uindex
     on "user" (email);
 
@@ -27,9 +24,6 @@ create table person
     firstname varchar(255),
     lastname  varchar(255)
 );
-
-alter table person
-    owner to student;
 
 create unique index person_personid_uindex
     on person (personid);
