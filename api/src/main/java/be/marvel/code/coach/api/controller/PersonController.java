@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/users",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/" + PersonController.RESOURCE_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
 public class PersonController {
 
+    public static final String RESOURCE_NAME = "users";
     private final PersonService personService;
     private final PersonMapper personMapper;
 
@@ -25,7 +26,7 @@ public class PersonController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto){
+    public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
         return personMapper.toDto(personService.save(personMapper.toEntity(createPersonDto)));
     }
 
