@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 @Slf4j
 @RequestMapping(path = "/" + PersonController.RESOURCE_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins ={ "http://localhost:4200", "https://codecoach-marvel.netlify.app"})
+@CrossOrigin(origins = {"http://localhost:4200", "https://codecoach-marvel.netlify.app"})
 public class PersonController {
 
     public static final String RESOURCE_NAME = "users";
@@ -31,14 +31,14 @@ public class PersonController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
-        log.info("Request POST : /"+ RESOURCE_NAME);
+        log.info("Request POST : /" + RESOURCE_NAME);
         return personMapper.toDto(personService.save(personMapper.toEntity(createPersonDto)));
     }
 
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PersonDto getPersonById(@PathVariable UUID id) {
-        log.info("Request GET : /"+ RESOURCE_NAME + "/"+ id);
+        log.info("Request GET : /" + RESOURCE_NAME + "/" + id);
         return personMapper.toDto(personService.getById(id));
     }
 
