@@ -15,6 +15,7 @@ import java.util.UUID;
 @RestController
 @Slf4j
 @RequestMapping(path = "/" + PersonController.RESOURCE_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins ={ "http://localhost:4200", "https://codecoach-marvel.netlify.app"})
 public class PersonController {
 
     public static final String RESOURCE_NAME = "users";
