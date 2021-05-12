@@ -1,26 +1,26 @@
-create table "user"
+create table usercredential
 (
-    userid   uuid         not null
-        constraint user_pk
+    usercredentialid   uuid         not null
+        constraint usercredential_pk
             primary key,
     email    varchar(255),
     password varchar(255) not null
 );
 
-create unique index user_email_uindex
-    on "user" (email);
+create unique index usercredential_email_uindex
+    on usercredential (email);
 
-create unique index user_userid_uindex
-    on "user" (userid);
+create unique index usercredential_usercredentialid_uindex
+    on usercredential (usercredentialid);
 
 create table person
 (
     personid  uuid not null
         constraint person_pk
             primary key,
-    userid    uuid
-        constraint person_user_userid_fk
-            references "user",
+    usercredentialid    uuid
+        constraint person_usercredential_usercredentialid_fk
+            references usercredential,
     firstname varchar(255),
     lastname  varchar(255)
 );
