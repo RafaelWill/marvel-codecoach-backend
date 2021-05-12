@@ -16,4 +16,13 @@ public class CreateUserCredentialDto {
         return password;
     }
 
+    public CreateUserCredentialDto setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public CreateUserCredentialDto setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 }
