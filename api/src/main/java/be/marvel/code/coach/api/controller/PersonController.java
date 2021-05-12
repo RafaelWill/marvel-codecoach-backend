@@ -4,12 +4,14 @@ import be.marvel.code.coach.api.dto.CreatePersonDto;
 import be.marvel.code.coach.api.dto.PersonDto;
 import be.marvel.code.coach.api.mapper.PersonMapper;
 import be.marvel.code.coach.service.service.PersonService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 @RequestMapping(path = "/" + PersonController.RESOURCE_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
 public class PersonController {
 
@@ -26,6 +28,7 @@ public class PersonController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
+        log.info("Request POST : /"+ RESOURCE_NAME);
         return personMapper.toDto(personService.save(personMapper.toEntity(createPersonDto)));
     }
 
