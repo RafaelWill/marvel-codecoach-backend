@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @Slf4j
 @RequestMapping(path = "/" + PersonController.RESOURCE_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,6 +32,13 @@ public class PersonController {
     public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
         log.info("Request POST : /"+ RESOURCE_NAME);
         return personMapper.toDto(personService.save(personMapper.toEntity(createPersonDto)));
+    }
+
+    @GetMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public PersonDto getPersonById(@PathVariable UUID id) {
+        log.info("Request GET : /"+ RESOURCE_NAME + "/"+ id);
+        return personMapper.toDto(personService.getById(id));
     }
 
 }
