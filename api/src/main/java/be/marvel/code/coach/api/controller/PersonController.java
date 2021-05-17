@@ -31,14 +31,12 @@ public class PersonController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
-        log.info("Request POST : /"+ RESOURCE_NAME);
         return personMapper.toDto(personService.save(personMapper.toEntity(createPersonDto)));
     }
 
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PersonDto getPersonById(@PathVariable UUID id) {
-        log.info("Request GET : /"+ RESOURCE_NAME + "/"+ id);
         return personMapper.toDto(personService.getById(id));
     }
 

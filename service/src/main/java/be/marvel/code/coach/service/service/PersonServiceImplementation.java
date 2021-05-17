@@ -2,10 +2,14 @@ package be.marvel.code.coach.service.service;
 
 import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.domain.repository.PersonRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.SQLDataException;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -32,6 +36,10 @@ public class PersonServiceImplementation implements PersonService {
 
     @Override
     public Person save(Person person){
-        return repository.save(person);
+        try {
+            return repository.save(person);
+        } catch (DataAccessException ex) {
+            throw new IllegalArgumentException("Person could not be stored in the system");
+        }
     }
 }

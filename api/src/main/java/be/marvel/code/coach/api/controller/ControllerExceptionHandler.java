@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    protected void invalidLicencePlateHandler(IllegalArgumentException ex, HttpServletResponse response) throws IOException {
+    protected void illegalArgumentExceptionHandler(IllegalArgumentException ex, HttpServletResponse response) throws IOException {
         log.error(ex.getMessage(),ex);
         response.sendError(BAD_REQUEST.value(), ex.getMessage());
     }
