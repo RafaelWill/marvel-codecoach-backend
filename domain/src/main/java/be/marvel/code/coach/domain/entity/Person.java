@@ -32,9 +32,22 @@ public class Person {
     }
 
     public Person(UserCredential userCredential, String firstName, String lastName) {
+        validateInput(userCredential, firstName, lastName);
         this.userCredential = userCredential;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    private void validateInput(UserCredential userCredential, String firstName, String lastName) {
+        if (userCredential == null) {
+            throw new IllegalArgumentException("Provided userCredential is invalid");
+        }
+        if (firstName == null || firstName.isBlank()) {
+            throw new IllegalArgumentException("Provided firstName is invalid");
+        }
+        if (lastName == null || lastName.isBlank()) {
+            throw new IllegalArgumentException("Provided lastName is invalid");
+        }
     }
 
     public UUID getId() {
