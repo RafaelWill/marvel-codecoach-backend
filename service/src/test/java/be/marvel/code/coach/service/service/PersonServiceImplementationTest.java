@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,7 +31,7 @@ class PersonServiceImplementationTest {
     @Test
     void save_givenCorrectParameter_thenReturnNewPerson() {
         //GIVEN
-        when(personRepository.save(any())).thenReturn(new Person(null, null, null));
+        when(personRepository.save(any())).thenReturn(Mockito.mock(Person.class));
         //WHEN
         Person actualResult = personServiceImplementation.save(any());
         //THEN
