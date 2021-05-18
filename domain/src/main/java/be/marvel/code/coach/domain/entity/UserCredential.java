@@ -1,5 +1,6 @@
 package be.marvel.code.coach.domain.entity;
 
+import be.marvel.code.coach.infrastructure.util.MailAddressValidator;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -28,9 +29,18 @@ public class UserCredential {
     }
 
     public UserCredential(String email, String password) {
-        //TODO : email,password validation.
+        validateInput(email, password);
         this.email = email;
         this.password = password;
+    }
+
+    private void validateInput(String email, String password) {
+        if ( email == null || email.isBlank() || !MailAddressValidator.isMailAddressValid(email)){
+            throw new IllegalArgumentException("Provided email not valid.");
+        }
+        if (password == null || password.isBlank()){
+            throw new IllegalArgumentException("Provided password not valid.");
+        }
     }
 
     public UUID getId() {
