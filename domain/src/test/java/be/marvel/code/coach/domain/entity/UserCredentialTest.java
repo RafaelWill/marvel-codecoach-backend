@@ -1,17 +1,10 @@
 package be.marvel.code.coach.domain.entity;
 
-import be.marvel.code.coach.domain.repository.PersonRepository;
 import be.marvel.code.coach.infrastructure.util.MailAddressValidator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserCredentialTest {
 
