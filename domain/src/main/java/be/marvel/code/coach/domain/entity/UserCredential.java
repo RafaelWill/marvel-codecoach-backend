@@ -4,6 +4,8 @@ import be.marvel.code.coach.infrastructure.util.MailAddressValidator;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,6 +26,20 @@ public class UserCredential {
 
     @Column(name = "password")
     private String password;
+
+    @ManyToMany
+//    @JoinTable(
+//            name = "userroles",
+//            joinColumns = @JoinColumn(
+//                    name = "usercredentialid", referencedColumnName = "usercredentialid"),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "role_id", referencedColumnName = "id"))
+    @JoinTable(name= "userroles",
+            joinColumns = {@JoinColumn(name="usercredentialid")},
+            inverseJoinColumns = {@JoinColumn(name="roleid")})
+    private Collection<Roles> roles;
+
+
 
     public UserCredential() {
     }
