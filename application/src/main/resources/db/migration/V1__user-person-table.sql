@@ -3,7 +3,7 @@ create table usercredential
     usercredentialid   uuid         not null
         constraint usercredential_pk
             primary key,
-    email    varchar(255),
+    email    varchar(255) not null,
     password varchar(255) not null
 );
 
@@ -21,8 +21,8 @@ create table person
     usercredentialid    uuid
         constraint person_usercredential_usercredentialid_fk
             references usercredential,
-    firstname varchar(255),
-    lastname  varchar(255)
+    firstname varchar(255) not null,
+    lastname  varchar(255) not null
 );
 
 create unique index person_personid_uindex
