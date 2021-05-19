@@ -3,10 +3,11 @@ package be.marvel.code.coach.service.service;
 import be.marvel.code.coach.infrastructure.mail.HtmlReader;
 import be.marvel.code.coach.infrastructure.mail.HtmlReplace;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Component
+@Service
 public class EmailPrepareServiceImplementation implements EmailPrepareService {
     private final EmailService emailService;
     private final HtmlReader htmlReader;

@@ -23,13 +23,10 @@ public class PersonController {
     private final PersonService personService;
     private final PersonMapper personMapper;
 
-    private final EmailPrepareService emailService;
-
     @Autowired
-    public PersonController(PersonService personService, PersonMapper personMapper, EmailPrepareService emailService) {
+    public PersonController(PersonService personService, PersonMapper personMapper) {
         this.personService = personService;
         this.personMapper = personMapper;
-        this.emailService = emailService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -43,5 +40,4 @@ public class PersonController {
     public PersonDto getPersonById(@PathVariable UUID id) {
         return personMapper.toDto(personService.getById(id));
     }
-
 }
