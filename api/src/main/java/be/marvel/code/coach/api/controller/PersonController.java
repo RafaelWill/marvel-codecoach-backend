@@ -3,6 +3,7 @@ package be.marvel.code.coach.api.controller;
 import be.marvel.code.coach.api.dto.CreatePersonDto;
 import be.marvel.code.coach.api.dto.PersonDto;
 import be.marvel.code.coach.api.mapper.PersonMapper;
+import be.marvel.code.coach.service.service.EmailPrepareService;
 import be.marvel.code.coach.service.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,13 @@ public class PersonController {
     private final PersonService personService;
     private final PersonMapper personMapper;
 
+    private final EmailPrepareService emailService;
+
     @Autowired
-    public PersonController(PersonService personService, PersonMapper personMapper) {
+    public PersonController(PersonService personService, PersonMapper personMapper, EmailPrepareService emailService) {
         this.personService = personService;
         this.personMapper = personMapper;
+        this.emailService = emailService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
