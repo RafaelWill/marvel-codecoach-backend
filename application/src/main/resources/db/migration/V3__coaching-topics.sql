@@ -1,15 +1,15 @@
-create table coachingtopics
+create table coachingtopic
 (
-    coachingtopicsid uuid not null,
+    coachingtopicid uuid not null,
     usercredentialid uuid not null,
     topic varchar(255) not null,
     rate int not null
 );
 
-create unique index coachingtopics_coachingtopicsid_uindex
-	on coachingtopics (coachingtopicsid);
+create unique index coachingtopic_coachingtopicid_uindex
+	on coachingtopic (coachingtopicid);
 
-alter table coachingtopics
-    add constraint coachingtopics_pk
-        primary key (coachingtopicsid);
+alter table coachingtopic
+    add constraint coachingtopic_pk
+        primary key (coachingtopicid);
 

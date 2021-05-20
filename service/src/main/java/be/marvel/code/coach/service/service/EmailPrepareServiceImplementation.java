@@ -13,7 +13,7 @@ public class EmailPrepareServiceImplementation implements EmailPrepareService {
     private final HtmlReader htmlReader;
     private final HtmlReplace htmlReplace;
 
-    public EmailPrepareServiceImplementation(EmailService emailService, HtmlReader htmlReader, PersonService personService, HtmlReplace htmlReplace) {
+    public EmailPrepareServiceImplementation(EmailService emailService, HtmlReader htmlReader, HtmlReplace htmlReplace) {
         this.emailService = emailService;
         this.htmlReader = htmlReader;
         this.htmlReplace = htmlReplace;

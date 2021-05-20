@@ -3,6 +3,7 @@ package be.marvel.code.coach.domain.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +28,10 @@ public class Person {
 
     @Column(name = "lastname")
     private String lastName;
+
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "personid")
+    private List<CoachingTopic> topics;
 
     public Person() {
     }
@@ -64,5 +69,9 @@ public class Person {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void addTopic(CoachingTopic topic) {
+        topics.add(topic);
     }
 }

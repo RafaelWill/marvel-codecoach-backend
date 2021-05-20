@@ -27,19 +27,11 @@ public class UserCredential {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany
-//    @JoinTable(
-//            name = "userroles",
-//            joinColumns = @JoinColumn(
-//                    name = "usercredentialid", referencedColumnName = "usercredentialid"),
-//            inverseJoinColumns = @JoinColumn(
-//                    name = "role_id", referencedColumnName = "id"))
-    @JoinTable(name= "userroles",
-            joinColumns = {@JoinColumn(name="usercredentialid")},
-            inverseJoinColumns = {@JoinColumn(name="roleid")})
-    private Collection<Roles> roles;
-
-
+    @ElementCollection()
+    @CollectionTable(name = "userrole", joinColumns = @JoinColumn(name = "usercredentialid"))
+    @Column(name = "rolename")
+    @Enumerated(EnumType.STRING)
+    private Collection<Role> roles;
 
     public UserCredential() {
     }
@@ -51,10 +43,10 @@ public class UserCredential {
     }
 
     private void validateInput(String email, String password) {
-        if ( email == null || email.isBlank() || !MailAddressValidator.isMailAddressValid(email)){
+        if (email == null || email.isBlank() || !MailAddressValidator.isMailAddressValid(email)) {
             throw new IllegalArgumentException("Provided email not valid.");
         }
-        if (password == null || password.isBlank()){
+        if (password == null || password.isBlank()) {
             throw new IllegalArgumentException("Provided password not valid.");
         }
     }
@@ -69,5 +61,9 @@ public class UserCredential {
 
     public String getPassword() {
         return password;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 }
