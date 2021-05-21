@@ -39,7 +39,10 @@ public class PersonServiceImplementation implements PersonService {
     @Override
     public Person save(Person person) {
         try {
-            return repository.save(person);
+            person.getUserCredential().addRole(Role.COACHEE);
+            var savedPerson = repository.save(person);
+            emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Welcome", "welcome.html");
+            return savedPerson;
         } catch (DataAccessException ex) {
             throw new IllegalArgumentException("Person could not be stored in the system");
         }
