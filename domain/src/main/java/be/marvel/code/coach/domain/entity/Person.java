@@ -71,6 +71,10 @@ public class Person {
         return lastName;
     }
 
+    public List<CoachingTopic> getTopics() {
+        return topics;
+    }
+
     public void addTopic(CoachingTopic topic) {
         topics.add(topic);
     }

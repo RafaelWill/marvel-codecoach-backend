@@ -5,12 +5,16 @@ import be.marvel.code.coach.api.dto.PersonDto;
 import be.marvel.code.coach.domain.entity.Person;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class PersonMapper {
     private final UserCredentialMapper userCredentialMapper;
+    private final CoachingTopicMapper coachingTopicMapper;
 
-    public PersonMapper(UserCredentialMapper userCredentialMapper) {
+    public PersonMapper(UserCredentialMapper userCredentialMapper, CoachingTopicMapper coachingTopicMapper) {
         this.userCredentialMapper = userCredentialMapper;
+        this.coachingTopicMapper = coachingTopicMapper;
     }
 
     public PersonDto toDto(Person entity) {
@@ -18,7 +22,8 @@ public class PersonMapper {
                 .setId(entity.getId())
                 .setEmail(entity.getUserCredential().getEmail())
                 .setFirstName(entity.getFirstName())
-                .setLastName(entity.getLastName());
+                .setLastName(entity.getLastName())
+                .setCoachingTopics(entity.getTopics().stream().map(coachingTopicMapper::toDto).collect(Collectors.toList()));
     }
 
     public Person toEntity(CreatePersonDto createPersonDto) {
