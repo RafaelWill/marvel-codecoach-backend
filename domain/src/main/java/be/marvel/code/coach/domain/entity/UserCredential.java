@@ -5,10 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "usercredential")
@@ -42,6 +39,7 @@ public class UserCredential {
         validateInput(email, password);
         this.email = email;
         this.password = password;
+        roles = new ArrayList<Role>();
     }
 
     private void validateInput(String email, String password) {

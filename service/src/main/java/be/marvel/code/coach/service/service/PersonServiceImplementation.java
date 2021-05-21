@@ -40,9 +40,8 @@ public class PersonServiceImplementation implements PersonService {
     public Person save(Person person) {
         try {
             person.getUserCredential().addRole(Role.COACHEE);
-            var savedPerson = repository.save(person);
             emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Welcome", "welcome.html");
-            return savedPerson;
+            return repository.save(person);
         } catch (DataAccessException ex) {
             throw new IllegalArgumentException("Person could not be stored in the system");
         }

@@ -2,6 +2,7 @@ package be.marvel.code.coach.service.service;
 
 import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
+import be.marvel.code.coach.domain.entity.Role;
 import be.marvel.code.coach.domain.entity.UserCredential;
 import be.marvel.code.coach.domain.repository.PersonRepository;
 import org.assertj.core.api.Assertions;
@@ -35,16 +36,22 @@ class PersonServiceImplementationTest {
     public class SavePerson {
         @Test
         void save_givenCorrectParameter_thenVerifyServiceCallsRepository() {
-            personServiceImplementation.save(any());
+            Person mockPerson = mock(Person.class);
+            when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
+            personServiceImplementation.save(mockPerson);
             verify(personRepository).save(any());
+            //verify(mockPerson.getUserCredential()).addRole(Role.COACHEE);
+            verify(emailPrepareService).sendSimpleEmail(any(),any(),any(),any());
         }
 
         @Test
         void save_givenCorrectParameter_thenReturnNewPerson() {
             //GIVEN
-            when(personRepository.save(any())).thenReturn(Mockito.mock(Person.class));
+            Person mockPerson = mock(Person.class);
+            when(personRepository.save(any())).thenReturn(mockPerson);
+            when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
             //WHEN
-            Person actualResult = personServiceImplementation.save(any());
+            Person actualResult = personServiceImplementation.save(mockPerson);
             //THEN
             Assertions.assertThat(actualResult).isInstanceOf(Person.class);
         }
