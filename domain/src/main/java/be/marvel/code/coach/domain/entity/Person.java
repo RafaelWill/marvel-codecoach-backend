@@ -3,6 +3,7 @@ package be.marvel.code.coach.domain.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,5 +74,9 @@ public class Person {
 
     public void addTopic(CoachingTopic topic) {
         topics.add(topic);
+    }
+
+    public List<CoachingTopic> getTopics() {
+        return Collections.unmodifiableList(topics);
     }
 }

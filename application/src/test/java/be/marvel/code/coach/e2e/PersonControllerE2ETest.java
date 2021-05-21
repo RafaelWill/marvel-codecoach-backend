@@ -1,18 +1,24 @@
 package be.marvel.code.coach.e2e;
 
 import be.marvel.code.coach.api.controller.PersonController;
+import be.marvel.code.coach.api.dto.BecomeCoachDto;
 import be.marvel.code.coach.api.dto.CreatePersonDto;
 import be.marvel.code.coach.api.dto.CreateUserCredentialDto;
 import be.marvel.code.coach.api.dto.PersonDto;
+import be.marvel.code.coach.domain.repository.PersonRepository;
+import be.marvel.code.coach.service.service.PersonService;
 import io.restassured.http.ContentType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
@@ -23,6 +29,9 @@ class PersonControllerE2ETest {
 
     @LocalServerPort
     private int port;
+
+    @Autowired
+    private PersonService personService;
 
     @BeforeEach
     void init() {
@@ -57,5 +66,33 @@ class PersonControllerE2ETest {
         Assertions.assertThat(actualResult.getLastName()).isEqualTo(createPersonDto.getLastName());
         Assertions.assertThat(actualResult.getEmail()).isEqualTo(createPersonDto.getUserCredential().getEmail());
         Assertions.assertThat(actualResult.getId()).isInstanceOf(UUID.class);
+    }
+
+    @Test
+    @Sql("/sql/InsertCoachee.sql")
+    void BecomeCoach_givenValidParameters_thenAddTopicsAndCoachRoleToDatabase(){
+        String personUuid = "daf3fa44-24df-419e-ad51-74bad5f9aa30";
+        BecomeCoachDto becomeCoachDto = new BecomeCoachDto()
+                .setMotivation("none")
+                .setTopic("First topic")
+                .setGrade(6)
+                .setExtraTopics(new ArrayList<>())
+                .setExtraGrades(new ArrayList<>());
+
+        //WHEN
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .contentType(ContentType.JSON)
+                .body(becomeCoachDto)
+                .when()
+                .post("/"+ PersonController.RESOURCE_NAME + "/" + personUuid + "/become-coach")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.CREATED.value());
+
+
+//        var p = personService.getById(UUID.fromString(personUuid));
+//        Assertions.assertThat(p.getTopics()).hasSize(1);
     }
 }

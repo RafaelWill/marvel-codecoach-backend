@@ -1,10 +1,12 @@
 package be.marvel.code.coach.domain.entity;
 
 import be.marvel.code.coach.infrastructure.util.MailAddressValidator;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,5 +67,9 @@ public class UserCredential {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public Collection<Role> getRoles() {
+        return Collections.unmodifiableCollection(roles);
     }
 }

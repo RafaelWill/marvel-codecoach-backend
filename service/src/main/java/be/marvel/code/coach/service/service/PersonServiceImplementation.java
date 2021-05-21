@@ -47,12 +47,29 @@ public class PersonServiceImplementation implements PersonService {
 
     @Override
     public Person becomeCoach(List<CoachingTopic> topics, String motivation, UUID personId) {
+        validateInputBecomeCoach(topics, motivation, personId);
+
         Person person = getById(personId);
         topics.forEach(person::addTopic);
         person.getUserCredential().addRole(Role.COACH);
 
         emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Become a coach", "becomeCoach.html");
-        emailPrepareService.sendSimpleEmail("admin who cares", "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoach.html");
+        emailPrepareService.sendSimpleEmail("admin", "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoach.html");
+
         return person;
+    }
+
+    private void validateInputBecomeCoach(List<CoachingTopic> topics, String motivation, UUID personId) {
+        if (topics == null || topics.isEmpty()) {
+            throw new IllegalArgumentException("No topics provided");
+        }
+
+        if (motivation == null || motivation.isBlank()) {
+            throw new IllegalArgumentException("No motivation provided");
+        }
+
+        if (personId == null) {
+            throw new IllegalArgumentException("No personId provided");
+        }
     }
 }
