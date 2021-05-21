@@ -1,8 +1,12 @@
 package be.marvel.code.coach.service.service;
 
+import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
+import be.marvel.code.coach.domain.entity.Role;
+import be.marvel.code.coach.domain.entity.UserCredential;
 import be.marvel.code.coach.domain.repository.PersonRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,31 +14,107 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PersonServiceImplementationTest {
 
     @Mock
     private PersonRepository personRepository;
+    @Mock
+    private EmailPrepareService emailPrepareService;
     @InjectMocks
     private PersonServiceImplementation personServiceImplementation;
 
-    @Test
-    void save_givenCorrectParameter_thenVerifyServiceCallsRepository() {
-        personServiceImplementation.save(any());
-        verify(personRepository).save(any());
+    @Nested
+    public class SavePerson {
+        @Test
+        void save_givenCorrectParameter_thenVerifyServiceCallsRepository() {
+            Person mockPerson = mock(Person.class);
+            when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
+            personServiceImplementation.save(mockPerson);
+            verify(personRepository).save(any());
+            //verify(mockPerson.getUserCredential()).addRole(Role.COACHEE);
+            verify(emailPrepareService).sendSimpleEmail(any(),any(),any(),any());
+        }
+
+        @Test
+        void save_givenCorrectParameter_thenReturnNewPerson() {
+            //GIVEN
+            Person mockPerson = mock(Person.class);
+            when(personRepository.save(any())).thenReturn(mockPerson);
+            when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
+            //WHEN
+            Person actualResult = personServiceImplementation.save(mockPerson);
+            //THEN
+            Assertions.assertThat(actualResult).isInstanceOf(Person.class);
+        }
     }
 
-    @Test
-    void save_givenCorrectParameter_thenReturnNewPerson() {
-        //GIVEN
-        when(personRepository.save(any())).thenReturn(Mockito.mock(Person.class));
-        //WHEN
-        Person actualResult = personServiceImplementation.save(any());
-        //THEN
-        Assertions.assertThat(actualResult).isInstanceOf(Person.class);
+
+    @Nested
+    public class BecomeCoach {
+        @Test
+        void becomeCoach_givenInvalidList_thenThrowsIllegalArgumentException() {
+            //given,
+            List<CoachingTopic> nullList = null;
+            List<CoachingTopic> emptyList = new ArrayList<>();
+            String motivation = "some text";
+            UUID personId = UUID.randomUUID();
+
+            //then
+            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(nullList, motivation, personId));
+            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(emptyList, motivation, personId));
+        }
+
+        @Test
+        void becomeCoach_givenInvalidMotivation_thenThrowsIllegalArgumentException() {
+            //given,
+            List<CoachingTopic> list = new ArrayList<>();
+            list.add(Mockito.mock(CoachingTopic.class));
+            String motivation = "";
+            UUID personId = UUID.randomUUID();
+
+            //then
+            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(list, motivation, personId));
+            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(list, null, personId));
+        }
+
+        @Test
+        void becomeCoach_givenInvalidPersonId_thenThrowsIllegalArgumentException() {
+            //given,
+            List<CoachingTopic> list = new ArrayList<>();
+            list.add(Mockito.mock(CoachingTopic.class));
+            String motivation = "some text";
+            UUID personId = null;
+
+            //then
+            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(list, motivation, personId));
+        }
+
+        @Test
+        void becomeCoach_givenValidInput_thenSendMail() {
+            //given
+            List<CoachingTopic> list = new ArrayList<>();
+            list.add(Mockito.mock(CoachingTopic.class));
+            String motivation = "some text";
+            UUID personId = UUID.randomUUID();
+            Person testPerson = Mockito.mock(Person.class);
+            when(testPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
+            when(personRepository.findById(personId)).thenReturn(Optional.of(testPerson));
+
+            //when
+            personServiceImplementation.becomeCoach(list, motivation, personId);
+
+            //then
+            verify(emailPrepareService, times(2)).sendSimpleEmail(any(), any(), any(), any());
+        }
     }
+
 }

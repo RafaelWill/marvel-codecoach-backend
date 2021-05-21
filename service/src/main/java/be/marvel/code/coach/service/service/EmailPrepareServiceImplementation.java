@@ -25,7 +25,7 @@ public class EmailPrepareServiceImplementation implements EmailPrepareService {
             var text = htmlReplace.SimpleReplace("{replaceme}",name,htmlReader.readFile(htmlName));
             emailService.send(toMail, title, text);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Mail not send!");
+            throw new IllegalArgumentException("Mail not send!",ex);
         }
     }
 }

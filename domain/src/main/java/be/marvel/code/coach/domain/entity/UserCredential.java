@@ -1,12 +1,11 @@
 package be.marvel.code.coach.domain.entity;
 
 import be.marvel.code.coach.infrastructure.util.MailAddressValidator;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "usercredential")
@@ -40,6 +39,7 @@ public class UserCredential {
         validateInput(email, password);
         this.email = email;
         this.password = password;
+        roles = new ArrayList<Role>();
     }
 
     private void validateInput(String email, String password) {
@@ -65,5 +65,9 @@ public class UserCredential {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public Collection<Role> getRoles() {
+        return Collections.unmodifiableCollection(roles);
     }
 }
