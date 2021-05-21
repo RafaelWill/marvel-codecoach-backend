@@ -3,6 +3,7 @@ package be.marvel.code.coach.domain.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +43,7 @@ public class Person {
         this.userCredential = userCredential;
         this.firstName = firstName;
         this.lastName = lastName;
+        topics = new ArrayList<>();
     }
 
     private void validateInput(UserCredential userCredential, String firstName, String lastName) {

@@ -40,7 +40,11 @@ public class PersonServiceImplementation implements PersonService {
     public Person save(Person person) {
         try {
             person.getUserCredential().addRole(Role.COACHEE);
-            emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Welcome", "welcome.html");
+            try {
+                emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Welcome", "welcome.html");
+            } catch (Exception e) {
+                //TODO FIX EMAIL SERVICE
+            }
             return repository.save(person);
         } catch (DataAccessException ex) {
             throw new IllegalArgumentException("Person could not be stored in the system");
@@ -55,8 +59,12 @@ public class PersonServiceImplementation implements PersonService {
         topics.forEach(person::addTopic);
         person.getUserCredential().addRole(Role.COACH);
 
-        emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Become a coach", "becomeCoach.html");
-        emailPrepareService.sendSimpleEmail("admin", "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoach.html");
+        try {
+            emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Become a coach", "becomeCoach.html");
+            emailPrepareService.sendSimpleEmail("admin", "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoach.html");
+        } catch (Exception e) {
+           //TODO FIX EMAIL SERVICE
+        }
 
         return person;
     }

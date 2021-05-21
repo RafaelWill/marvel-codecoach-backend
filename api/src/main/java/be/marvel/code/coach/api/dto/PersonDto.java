@@ -1,11 +1,8 @@
 package be.marvel.code.coach.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 import java.util.UUID;
 
-@JsonInclude (JsonInclude.Include.NON_NULL)
 public class PersonDto {
     private UUID id;
     private String email;
