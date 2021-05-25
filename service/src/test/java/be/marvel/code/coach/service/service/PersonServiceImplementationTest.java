@@ -38,6 +38,7 @@ class PersonServiceImplementationTest {
         void save_givenCorrectParameter_thenVerifyServiceCallsRepository() {
             Person mockPerson = mock(Person.class);
             when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
+            when(personRepository.save(mockPerson)).thenReturn(mockPerson);
             personServiceImplementation.save(mockPerson);
             verify(personRepository).save(any());
             //verify(mockPerson.getUserCredential()).addRole(Role.COACHEE);
