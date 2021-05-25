@@ -24,16 +24,16 @@ public class CoachingTopic {
     @Column(name = "topic")
     private String topic;
 
-    @Column(name = "rate")
-    private int rate;
+    @Column(name = "grade")
+    private int grade;
 
     public CoachingTopic() {
     }
 
-    public CoachingTopic(UUID personid, String topic, int rate) {
+    public CoachingTopic(UUID personid, String topic, int grade) {
         this.personid = personid;
         this.topic = topic;
-        this.rate = rate;
+        this.grade = grade;
     }
 
     public UUID getId() {
@@ -48,7 +48,7 @@ public class CoachingTopic {
         return topic;
     }
 
-    public int getRate() {
-        return rate;
+    public int getGrade() {
+        return grade;
     }
 }

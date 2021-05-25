@@ -12,6 +12,6 @@ public class CoachingTopicMapper {
                 .setId(coachingTopic.getId())
                 .setPersonid(coachingTopic.getPersonid())
                 .setTopic(coachingTopic.getTopic())
-                .setRate(coachingTopic.getRate());
+                .setGrade(coachingTopic.getGrade());
     }
 }
