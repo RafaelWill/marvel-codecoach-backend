@@ -40,11 +40,7 @@ public class PersonServiceImplementation implements PersonService {
     public Person save(Person person) {
         try {
             person.getUserCredential().addRole(Role.COACHEE);
-            var savedPerson = repository.save(person);
-
-            emailPrepareService.sendSimpleEmail(savedPerson.getFirstName(), savedPerson.getUserCredential().getEmail(), "Welcome", "welcome.html");
-
-            return savedPerson;
+            return repository.save(person);
         } catch (Exception ex) {
             throw new IllegalArgumentException("Person could not be stored in the system");
         }
@@ -57,9 +53,6 @@ public class PersonServiceImplementation implements PersonService {
         Person person = getById(personId);
         topics.forEach(person::addTopic);
         person.getUserCredential().addRole(Role.COACH);
-
-        emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Become a coach", "becomeCoach.html");
-        emailPrepareService.sendSimpleEmail("admin", "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoach.html");
 
         return person;
     }
