@@ -37,16 +37,11 @@ public class PersonServiceImplementation implements PersonService {
 
     @Override
     public Person save(Person person) {
-        try {
-            person.getUserCredential().addRole(Role.COACHEE);
-            return repository.saveAndFlush(person);
-        }catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Person could not be stored in the system");
-        } catch (ConstraintViolationException e) {
-            throw new IllegalArgumentException("Person could not be stored in the system");
-        } catch (Exception e) {
+        if(repository.existsByUserCredentialEmail(person.getUserCredential().getEmail())){
             throw new IllegalArgumentException("Person could not be stored in the system");
         }
+        person.getUserCredential().addRole(Role.COACHEE);
+        return repository.save(person);
     }
 
     @Override
