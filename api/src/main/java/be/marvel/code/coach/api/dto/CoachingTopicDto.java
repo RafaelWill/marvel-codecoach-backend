@@ -7,7 +7,7 @@ public class CoachingTopicDto {
     private UUID id;
     private UUID personid;
     private String topic;
-    private int rate;
+    private int grade;
 
     public CoachingTopicDto() {
     }
@@ -24,8 +24,8 @@ public class CoachingTopicDto {
         return topic;
     }
 
-    public int getRate() {
-        return rate;
+    public int getGrade() {
+        return grade;
     }
 
     public CoachingTopicDto setId(UUID id) {
@@ -43,8 +43,8 @@ public class CoachingTopicDto {
         return this;
     }
 
-    public CoachingTopicDto setRate(int rate) {
-        this.rate = rate;
+    public CoachingTopicDto setGrade(int grade) {
+        this.grade = grade;
         return this;
     }
 }

@@ -8,6 +8,3 @@ create table userrole
 
          PRIMARY KEY (usercredentialid, rolename)
 );
-
-alter table userrole
-    owner to student;
