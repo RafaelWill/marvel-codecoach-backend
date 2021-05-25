@@ -45,7 +45,7 @@ public class PersonServiceImplementation implements PersonService {
             emailPrepareService.sendSimpleEmail(savedPerson.getFirstName(), savedPerson.getUserCredential().getEmail(), "Welcome", "welcome.html");
 
             return savedPerson;
-        } catch (DataAccessException ex) {
+        } catch (Exception ex) {
             throw new IllegalArgumentException("Person could not be stored in the system");
         }
     }
