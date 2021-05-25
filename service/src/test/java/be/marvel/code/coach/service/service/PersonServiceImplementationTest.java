@@ -38,9 +38,9 @@ class PersonServiceImplementationTest {
         void save_givenCorrectParameter_thenVerifyServiceCallsRepository() {
             Person mockPerson = mock(Person.class);
             when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
-            when(personRepository.save(mockPerson)).thenReturn(mockPerson);
+            when(personRepository.saveAndFlush(mockPerson)).thenReturn(mockPerson);
             personServiceImplementation.save(mockPerson);
-            verify(personRepository).save(any());
+            verify(personRepository).saveAndFlush(any());
             //verify(mockPerson.getUserCredential()).addRole(Role.COACHEE);
 //            verify(emailPrepareService).sendSimpleEmail(any(),any(),any(),any());
         }
@@ -49,7 +49,7 @@ class PersonServiceImplementationTest {
         void save_givenCorrectParameter_thenReturnNewPerson() {
             //GIVEN
             Person mockPerson = mock(Person.class);
-            when(personRepository.save(any())).thenReturn(mockPerson);
+            when(personRepository.saveAndFlush(any())).thenReturn(mockPerson);
             when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
             //WHEN
             Person actualResult = personServiceImplementation.save(mockPerson);
