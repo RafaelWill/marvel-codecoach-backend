@@ -4,8 +4,9 @@ import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.domain.entity.Role;
 import be.marvel.code.coach.domain.repository.PersonRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,12 +19,10 @@ import java.util.UUID;
 public class PersonServiceImplementation implements PersonService {
 
     private final PersonRepository repository;
-    private final EmailPrepareService emailPrepareService;
 
     @Autowired
-    public PersonServiceImplementation(PersonRepository repository, EmailPrepareService emailPrepareService) {
+    public PersonServiceImplementation(PersonRepository repository) {
         this.repository = repository;
-        this.emailPrepareService = emailPrepareService;
     }
 
     @Override
@@ -40,8 +39,12 @@ public class PersonServiceImplementation implements PersonService {
     public Person save(Person person) {
         try {
             person.getUserCredential().addRole(Role.COACHEE);
-            return repository.save(person);
-        } catch (Exception ex) {
+            return repository.saveAndFlush(person);
+        }catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Person could not be stored in the system");
+        } catch (ConstraintViolationException e) {
+            throw new IllegalArgumentException("Person could not be stored in the system");
+        } catch (Exception e) {
             throw new IllegalArgumentException("Person could not be stored in the system");
         }
     }
