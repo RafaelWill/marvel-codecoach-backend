@@ -28,4 +28,14 @@ public class EmailPrepareServiceImplementation implements EmailPrepareService {
             throw new IllegalArgumentException("Mail not send!",ex);
         }
     }
+
+    @Override
+    public void sendSimpleEmailAndMotivation(String name, String motivation, String toMail, String title, String htmlName) {
+        try {
+            var text = htmlReplace.SimpleReplace("{replaceme}",name,"{motivation}",motivation,htmlReader.readFile(htmlName));
+            emailService.send(toMail, title, text);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Mail not send!",ex);
+        }
+    }
 }

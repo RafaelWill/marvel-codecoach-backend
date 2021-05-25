@@ -56,6 +56,6 @@ public class PersonController {
     public void becomeCoach(@PathVariable UUID id, @RequestBody BecomeCoachDto dto) {
         var person = personService.becomeCoach(becomeCoachMapper.toEntityList(dto, id), dto.getMotivation(), id);
         emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Become a coach", "becomeCoach.html");
-        emailPrepareService.sendSimpleEmail("admin", "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoach.html");
+        emailPrepareService.sendSimpleEmailAndMotivation(personService.getById(id).getUserCredential().getEmail(), dto.getMotivation(), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
     }
 }
