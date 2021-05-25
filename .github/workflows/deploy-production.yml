@@ -18,7 +18,7 @@ jobs:
     needs: unit-tests
     steps:
       - uses: actions/checkout@v2
-      - run: sed -ri 's/codecoach-dev/codecoach/g' ./application/src/main/resources/application.properties
+      - run: sed -ri 's/codecoach_dev/codecoach/g' ./application/src/main/resources/application.properties
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
