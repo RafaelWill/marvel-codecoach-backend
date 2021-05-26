@@ -55,6 +55,11 @@ public class PersonServiceImplementation implements PersonService {
         return person;
     }
 
+    @Override
+    public List<Person> getAllCoaches() {
+        return repository.findAllByUserCredentialRoles(Role.COACH);
+    }
+
     private void validateInputBecomeCoach(List<CoachingTopic> topics, String motivation, UUID personId) {
         if (topics == null || topics.isEmpty()) {
             throw new IllegalArgumentException("No topics provided");

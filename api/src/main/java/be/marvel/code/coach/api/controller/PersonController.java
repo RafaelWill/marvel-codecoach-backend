@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -57,5 +58,11 @@ public class PersonController {
         var person = personService.becomeCoach(becomeCoachMapper.toEntityList(dto, id), dto.getMotivation(), id);
         emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Become a coach", "becomeCoach.html");
         emailPrepareService.sendSimpleEmailAndMotivation(personService.getById(id).getUserCredential().getEmail(), dto.getMotivation(), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
+    }
+
+    @GetMapping(path = "/coaches")
+    @ResponseStatus(HttpStatus.OK)
+    public List<PersonDto> getOverViewCoaches(){
+        return personMapper.toDtoList(personService.getAllCoaches());
     }
 }

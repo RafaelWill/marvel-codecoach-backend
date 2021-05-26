@@ -15,4 +15,7 @@ public interface PersonService {
     Person save(Person person);
 
     Person becomeCoach(List<CoachingTopic> topics,String motivation,UUID personId);
+
+    List<Person> getAllCoaches();
+
 }
