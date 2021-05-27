@@ -72,5 +72,9 @@ public class PersonServiceImplementation implements PersonService {
         if (personId == null) {
             throw new IllegalArgumentException("No personId provided");
         }
+
+        if(getById(personId).getUserCredential().getRoles().contains(Role.COACH)){
+            throw new IllegalArgumentException("Person already is a coach");//TODO : change exception to a custom
+        }
     }
 }
