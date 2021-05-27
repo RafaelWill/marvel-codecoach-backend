@@ -24,7 +24,8 @@ public class PersonMapper {
                 .setEmail(entity.getUserCredential().getEmail())
                 .setFirstName(entity.getFirstName())
                 .setLastName(entity.getLastName())
-                .setCoachingTopics(entity.getTopics().stream().map(coachingTopicMapper::toDto).collect(Collectors.toList()));
+                .setCoachingTopics(entity.getTopics().stream().map(coachingTopicMapper::toDto).collect(Collectors.toList()))
+                .setRoles(entity.getUserCredential().getRoles().stream().map(Enum::name).collect(Collectors.toList()));
     }
 
     public Person toEntity(CreatePersonDto createPersonDto) {

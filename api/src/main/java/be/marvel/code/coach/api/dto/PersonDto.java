@@ -11,6 +11,7 @@ public class PersonDto {
     private String firstName;
     private String lastName;
     private List<CoachingTopicDto> coachingTopics;
+    private List<String> roles;
 
     public PersonDto() {
     }
@@ -35,6 +36,10 @@ public class PersonDto {
         return coachingTopics;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
     public PersonDto setId(UUID id) {
         this.id = id;
         return this;
@@ -57,6 +62,11 @@ public class PersonDto {
 
     public PersonDto setCoachingTopics(List<CoachingTopicDto> coachingTopics) {
         this.coachingTopics = coachingTopics;
+        return this;
+    }
+
+    public PersonDto setRoles(List<String> roles) {
+        this.roles = roles;
         return this;
     }
 }
