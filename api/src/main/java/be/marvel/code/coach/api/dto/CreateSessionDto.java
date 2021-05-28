@@ -7,8 +7,8 @@ import java.util.UUID;
 public class CreateSessionDto {
     private UUID topic;
     private UUID coacheeId;
-    private LocalDate date;
-    private LocalTime time;
+    private String date;
+    private String time;
     private String location;
     private String remarks;
 
@@ -23,11 +23,11 @@ public class CreateSessionDto {
         return coacheeId;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
     }
 
@@ -49,12 +49,12 @@ public class CreateSessionDto {
         return this;
     }
 
-    public CreateSessionDto setDate(LocalDate date) {
+    public CreateSessionDto setDate(String date) {
         this.date = date;
         return this;
     }
 
-    public CreateSessionDto setTime(LocalTime time) {
+    public CreateSessionDto setTime(String time) {
         this.time = time;
         return this;
     }

@@ -48,7 +48,6 @@ public class PersonController {
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PersonDto getPersonById(@PathVariable UUID id) {
-        var x = personService.getById(id);//TODO remove me
         return personMapper.toDto(personService.getById(id));
     }
 
