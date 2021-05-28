@@ -15,6 +15,9 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class SessionMapper {
 
+    /**
+     * TODO: Please don't use services in mappers, it hides logic
+     */
     private final PersonService personService;
     private final CoachingTopicService coachingTopicService;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
