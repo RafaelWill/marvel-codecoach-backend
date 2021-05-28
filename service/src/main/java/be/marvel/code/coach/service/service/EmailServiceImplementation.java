@@ -23,6 +23,12 @@ public class EmailServiceImplementation implements EmailService {
 
     @Override
     public void send(String to, String title, String body) {
+        this.javaMailSender.send(createMessage(to, title, body));
+    }
+
+
+    // TODO: SRP -> creating a message and sending one are 2 different responsibilities
+    private MimeMessage createMessage(String to, String title, String body) {
         MimeMessage message = this.javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);
         try {
@@ -30,9 +36,9 @@ public class EmailServiceImplementation implements EmailService {
                 mimeMessageHelper.setFrom(from);
             }
             mimeMessageHelper.setSubject(title);
-            mimeMessageHelper.setText(body,true);
+            mimeMessageHelper.setText(body, true);
             mimeMessageHelper.setTo(to);
-            this.javaMailSender.send(message);
+            return message;
         } catch (MessagingException messageException) {
             throw new RuntimeException(messageException);
         }

@@ -37,18 +37,20 @@ public class PersonServiceImplementation implements PersonService {
 
     @Override
     public Person save(Person person) {
-        if(repository.existsByUserCredentialEmail(person.getUserCredential().getEmail())){
+        if(repository.existsByUserCredentialEmail(person.getUserCredential().getEmail())){ // TODO: feature envy -> replace with peron.getEmail()
             throw new IllegalArgumentException("Person could not be stored in the system");
         }
-        person.getUserCredential().addRole(Role.COACHEE);
+        person.getUserCredential().addRole(Role.COACHEE); // TODO: why isn't this added by default in the constructor? Try to push as much logic as possible in the entities.
         return repository.save(person);
     }
 
     @Override
     public Person becomeCoach(List<CoachingTopic> topics, String motivation, UUID personId) {
+        //TODO: nothing is done with the motivation?
         validateInputBecomeCoach(topics, motivation, personId);
 
         Person person = getById(personId);
+        // TODO: this could become a method in Person like becomeCoach(topics)
         topics.forEach(person::addTopic);
         person.getUserCredential().addRole(Role.COACH);
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+// TODO: This looks fine for now, but will become unmaintainable when you got too many different mails to send. Trust me, I speak from experience :). Is there a way to organise this differently?
 public class EmailPrepareServiceImplementation implements EmailPrepareService {
     private final EmailService emailService;
     private final HtmlReader htmlReader;
