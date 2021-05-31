@@ -71,4 +71,8 @@ public class Session {
     public String getRemarks() {
         return remarks;
     }
+
+    public Person getCoach(){
+        return coachingtopic.getCoach();
+    }
 }

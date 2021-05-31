@@ -10,7 +10,7 @@ public class CoachingTopicMapper {
     public CoachingTopicDto toDto(CoachingTopic coachingTopic) {
         return new CoachingTopicDto()
                 .setId(coachingTopic.getId())
-                .setPersonid(coachingTopic.getPersonid())
+                .setPersonid(coachingTopic.getCoach().getId())
                 .setTopic(coachingTopic.getTopic())
                 .setGrade(coachingTopic.getGrade());
     }

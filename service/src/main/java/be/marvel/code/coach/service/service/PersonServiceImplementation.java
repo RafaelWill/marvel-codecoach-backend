@@ -37,7 +37,7 @@ public class PersonServiceImplementation implements PersonService {
 
     @Override
     public Person save(Person person) {
-        if(repository.existsByUserCredentialEmail(person.getUserCredential().getEmail())){ // TODO: feature envy -> replace with peron.getEmail()
+        if (repository.existsByUserCredentialEmail(person.getEmail())) {
             throw new IllegalArgumentException("Person could not be stored in the system");
         }
         person.getUserCredential().addRole(Role.COACHEE); // TODO: why isn't this added by default in the constructor? Try to push as much logic as possible in the entities.
@@ -45,14 +45,11 @@ public class PersonServiceImplementation implements PersonService {
     }
 
     @Override
-    public Person becomeCoach(List<CoachingTopic> topics, String motivation, UUID personId) {
-        //TODO: nothing is done with the motivation?
-        validateInputBecomeCoach(topics, motivation, personId);
+    public Person becomeCoach(List<CoachingTopic> topics, UUID personId) {
+        validateInputBecomeCoach(topics, personId);
 
         Person person = getById(personId);
-        // TODO: this could become a method in Person like becomeCoach(topics)
-        topics.forEach(person::addTopic);
-        person.getUserCredential().addRole(Role.COACH);
+        person.becomeCoach(topics);
 
         return person;
     }
@@ -62,6 +59,7 @@ public class PersonServiceImplementation implements PersonService {
         return repository.findAllByUserCredentialRoles(Role.COACH);
     }
 
+    private void validateInputBecomeCoach(List<CoachingTopic> topics, UUID personId) {
     @Override
     public Person getByEmail(String email) {
         return repository.findByUserCredential_Email(email);
@@ -80,7 +78,7 @@ public class PersonServiceImplementation implements PersonService {
             throw new IllegalArgumentException("No personId provided");
         }
 
-        if(getById(personId).getUserCredential().getRoles().contains(Role.COACH)){
+        if (getById(personId).hasRole(Role.COACH)) {
             throw new IllegalArgumentException("Person already is a coach");//TODO : change exception to a custom
         }
     }

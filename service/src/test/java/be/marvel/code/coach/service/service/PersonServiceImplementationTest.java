@@ -37,12 +37,9 @@ class PersonServiceImplementationTest {
         @Test
         void save_givenCorrectParameter_thenVerifyServiceCallsRepository() {
             Person mockPerson = mock(Person.class);
-            when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
             when(personRepository.save(mockPerson)).thenReturn(mockPerson);
             personServiceImplementation.save(mockPerson);
             verify(personRepository).save(any());
-            //verify(mockPerson.getUserCredential()).addRole(Role.COACHEE);
-//            verify(emailPrepareService).sendSimpleEmail(any(),any(),any(),any());
         }
 
         @Test
@@ -50,7 +47,6 @@ class PersonServiceImplementationTest {
             //GIVEN
             Person mockPerson = mock(Person.class);
             when(personRepository.save(any())).thenReturn(mockPerson);
-            when(mockPerson.getUserCredential()).thenReturn(Mockito.mock(UserCredential.class));
             //WHEN
             Person actualResult = personServiceImplementation.save(mockPerson);
             //THEN
@@ -64,27 +60,12 @@ class PersonServiceImplementationTest {
         @Test
         void becomeCoach_givenInvalidList_thenThrowsIllegalArgumentException() {
             //given,
-            List<CoachingTopic> nullList = null;
             List<CoachingTopic> emptyList = new ArrayList<>();
-            String motivation = "some text";
             UUID personId = UUID.randomUUID();
 
             //then
-            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(nullList, motivation, personId));
-            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(emptyList, motivation, personId));
-        }
-
-        @Test
-        void becomeCoach_givenInvalidMotivation_thenThrowsIllegalArgumentException() {
-            //given,
-            List<CoachingTopic> list = new ArrayList<>();
-            list.add(Mockito.mock(CoachingTopic.class));
-            String motivation = "";
-            UUID personId = UUID.randomUUID();
-
-            //then
-            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(list, motivation, personId));
-            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(list, null, personId));
+            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(null, personId));
+            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(emptyList, personId));
         }
 
         @Test
@@ -96,7 +77,7 @@ class PersonServiceImplementationTest {
             UUID personId = null;
 
             //then
-            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(list, motivation, personId));
+            Assertions.assertThatIllegalArgumentException().isThrownBy(() -> personServiceImplementation.becomeCoach(list, personId));
         }
 //
 //        @Test

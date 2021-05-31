@@ -31,8 +31,7 @@ public class Person {
     @Column(name = "lastname")
     private String lastName;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "personid")
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL,mappedBy = "coach")
     private List<CoachingTopic> topics;
 
     public Person() {
@@ -44,6 +43,7 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         topics = new ArrayList<>();
+        userCredential.addRole(Role.COACHEE);
     }
 
     private void validateInput(UserCredential userCredential, String firstName, String lastName) {
@@ -62,8 +62,12 @@ public class Person {
         return id;
     }
 
-    public UserCredential getUserCredential() {
-        return userCredential;
+//    public UserCredential getUserCredential() {
+//        return userCredential;
+//    }
+
+    public String getEmail() {
+        return userCredential.getEmail();
     }
 
     public String getFirstName() {
@@ -80,5 +84,18 @@ public class Person {
 
     public List<CoachingTopic> getTopics() {
         return Collections.unmodifiableList(topics);
+    }
+
+    public void becomeCoach(List<CoachingTopic> topicsToAdd){
+        topicsToAdd.forEach(this::addTopic);
+        userCredential.addRole(Role.COACH);
+    }
+
+    public boolean hasRole(Role role){
+        return userCredential.getRoles().contains(role);
+    }
+
+    public List<Role> getRoles(){
+        return List.copyOf(userCredential.getRoles());
     }
 }

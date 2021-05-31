@@ -18,8 +18,9 @@ public class CoachingTopic {
     @Column(name = "coachingtopicid")
     private UUID id;
 
-    @Column(name = "personid")
-    private UUID personid;
+    @ManyToOne
+    @JoinColumn(name = "personid")
+    private Person coach;
 
     @Column(name = "topic")
     private String topic;
@@ -30,8 +31,8 @@ public class CoachingTopic {
     public CoachingTopic() {
     }
 
-    public CoachingTopic(UUID personid, String topic, int grade) {
-        this.personid = personid;
+    public CoachingTopic(Person coach, String topic, int grade) {
+        this.coach = coach;
         this.topic = topic;
         this.grade = grade;
     }
@@ -40,9 +41,9 @@ public class CoachingTopic {
         return id;
     }
 
-    public UUID getPersonid() {
-        return personid;
-    }
+//    public UUID getPersonid() {
+//        return personid;
+//    }
 
     public String getTopic() {
         return topic;
@@ -50,5 +51,9 @@ public class CoachingTopic {
 
     public int getGrade() {
         return grade;
+    }
+
+    public Person getCoach(){
+        return coach;
     }
 }
