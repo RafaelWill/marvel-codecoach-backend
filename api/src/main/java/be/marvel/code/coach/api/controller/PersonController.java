@@ -5,6 +5,7 @@ import be.marvel.code.coach.api.dto.CreatePersonDto;
 import be.marvel.code.coach.api.dto.PersonDto;
 import be.marvel.code.coach.api.mapper.BecomeCoachMapper;
 import be.marvel.code.coach.api.mapper.PersonMapper;
+import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.service.service.EmailPrepareService;
 import be.marvel.code.coach.service.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class PersonController {
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
         var savedPerson = personService.save(personMapper.toEntity(createPersonDto));
-        emailPrepareService.sendSimpleEmail(savedPerson.getFirstName(), savedPerson.getUserCredential().getEmail(), "Welcome", "welcome.html");
+        emailPrepareService.sendSimpleEmail(savedPerson.getFirstName(), savedPerson.getEmail(), "Welcome", "welcome.html");
         return personMapper.toDto(savedPerson);
     }
 
@@ -51,12 +52,13 @@ public class PersonController {
         return personMapper.toDto(personService.getById(id));
     }
 
-    @PostMapping(path = "/{id}/become-coach")
+    @PostMapping(path = "/{coachId}/become-coach")
     @ResponseStatus(HttpStatus.CREATED)
-    public void becomeCoach(@PathVariable UUID id, @RequestBody BecomeCoachDto dto) {
-        var person = personService.becomeCoach(becomeCoachMapper.toEntityList(dto, id), dto.getMotivation(), id);
-        emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getUserCredential().getEmail(), "Become a coach", "becomeCoach.html");
-        emailPrepareService.sendSimpleEmailAndMotivation(personService.getById(id).getUserCredential().getEmail(), dto.getMotivation(), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
+    public void becomeCoach(@PathVariable UUID coachId, @RequestBody BecomeCoachDto dto) {
+        Person coach = personService.getById(coachId);
+        var person = personService.becomeCoach(becomeCoachMapper.toEntityList(dto, coach), coachId);
+        emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getEmail(), "Become a coach", "becomeCoach.html");
+        emailPrepareService.sendSimpleEmailAndMotivation(personService.getById(coachId).getEmail(), dto.getMotivation(), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
     }
 
     @GetMapping(path = "/coaches")

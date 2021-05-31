@@ -21,11 +21,11 @@ public class PersonMapper {
     public PersonDto toDto(Person entity) {
         return new PersonDto()
                 .setId(entity.getId())
-                .setEmail(entity.getUserCredential().getEmail())
+                .setEmail(entity.getEmail())
                 .setFirstName(entity.getFirstName())
                 .setLastName(entity.getLastName())
                 .setCoachingTopics(entity.getTopics().stream().map(coachingTopicMapper::toDto).collect(Collectors.toList()))
-                .setRoles(entity.getUserCredential().getRoles().stream().map(Enum::name).collect(Collectors.toList()));
+                .setRoles(entity.getRoles().stream().map(Enum::name).collect(Collectors.toList()));
     }
 
     public Person toEntity(CreatePersonDto createPersonDto) {

@@ -1,6 +1,8 @@
 package be.marvel.code.coach.api.mapper;
 
 import be.marvel.code.coach.api.dto.CreateSessionDto;
+import be.marvel.code.coach.domain.entity.CoachingTopic;
+import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.domain.entity.Session;
 import be.marvel.code.coach.service.service.CoachingTopicService;
 import be.marvel.code.coach.service.service.PersonService;
@@ -15,22 +17,15 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class SessionMapper {
 
-    /**
-     * TODO: Please don't use services in mappers, it hides logic
-     */
-    private final PersonService personService;
-    private final CoachingTopicService coachingTopicService;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Autowired
-    public SessionMapper(PersonService personService, CoachingTopicService coachingTopicService) {
-        this.personService = personService;
-        this.coachingTopicService = coachingTopicService;
+    public SessionMapper() {
     }
 
-    public Session toEntity(CreateSessionDto createSessionDto) {
-        return new Session(personService.getById(createSessionDto.getCoacheeId()),
-                coachingTopicService.getById(createSessionDto.getTopic()),
+    public Session toEntity(CreateSessionDto createSessionDto, Person coachee, CoachingTopic topic) {
+        return new Session(coachee,
+                topic,
                 LocalDateTime.of(LocalDate.parse(createSessionDto.getDate(), formatter), LocalTime.parse(createSessionDto.getTime()) ),
                 createSessionDto.getLocation(),
                 createSessionDto.getRemarks());
