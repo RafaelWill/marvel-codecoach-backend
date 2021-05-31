@@ -26,7 +26,7 @@ public class UserCredential {
     @Column(name = "password")
     private String password;
 
-    @ElementCollection()
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "userrole", joinColumns = @JoinColumn(name = "usercredentialid"))
     @Column(name = "rolename")
     @Enumerated(EnumType.STRING)

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,6 @@ public class PersonController {
         this.emailPrepareService = emailPrepareService;
     }
 
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
@@ -45,12 +45,14 @@ public class PersonController {
         return personMapper.toDto(savedPerson);
     }
 
+    @PreAuthorize("hasAuthority('FIND_PERSON_BY_ID')")
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PersonDto getPersonById(@PathVariable UUID id) {
         return personMapper.toDto(personService.getById(id));
     }
 
+    @PreAuthorize("hasAuthority('BECOME_COACH')")
     @PostMapping(path = "/{id}/become-coach")
     @ResponseStatus(HttpStatus.CREATED)
     public void becomeCoach(@PathVariable UUID id, @RequestBody BecomeCoachDto dto) {
@@ -59,6 +61,7 @@ public class PersonController {
         emailPrepareService.sendSimpleEmailAndMotivation(personService.getById(id).getUserCredential().getEmail(), dto.getMotivation(), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
     }
 
+    @PreAuthorize("hasAuthority('FIND_COACHES')")
     @GetMapping(path = "/coaches")
     @ResponseStatus(HttpStatus.OK)
     public List<PersonDto> getOverViewCoaches(){
