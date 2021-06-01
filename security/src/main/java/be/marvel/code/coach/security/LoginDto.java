@@ -15,4 +15,14 @@ public class LoginDto {
     public String getPassword() {
         return password;
     }
+
+    public LoginDto setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public LoginDto setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 }

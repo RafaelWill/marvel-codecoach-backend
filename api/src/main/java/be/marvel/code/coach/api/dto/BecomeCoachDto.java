@@ -1,6 +1,5 @@
 package be.marvel.code.coach.api.dto;
 
-import java.util.Collection;
 import java.util.List;
 
 public class BecomeCoachDto {

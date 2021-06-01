@@ -1,6 +1,7 @@
 package be.marvel.code.coach.api.controller;
 
 import be.marvel.code.coach.api.dto.CreateSessionDto;
+import be.marvel.code.coach.api.dto.SessionDto;
 import be.marvel.code.coach.api.mapper.SessionMapper;
 import be.marvel.code.coach.service.service.CoachingTopicService;
 import be.marvel.code.coach.service.service.EmailPrepareService;
@@ -37,11 +38,12 @@ public class SessionController {
     @PreAuthorize("hasAuthority('REQUEST_SESSION')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createSession(@RequestBody CreateSessionDto createSessionDto) {
+    public SessionDto createSession(@RequestBody CreateSessionDto createSessionDto) {
         var savedSession = sessionService.save(sessionMapper.toEntity(createSessionDto,
                 personService.getById(createSessionDto.getCoacheeId()),coachingTopicService.getById(createSessionDto.getTopic())));
         var coach = savedSession.getCoach();
         emailPrepareService.sendSessionMail(savedSession.getCoachee().getFirstName(), savedSession.getCoachee().getEmail(), savedSession,"Request a Sesion", "RequestSesion.html");
         emailPrepareService.sendSessionMail(coach.getFirstName(), coach.getEmail(), savedSession,"There is a request for a coach session", "ReqestedSession.html");
+        return sessionMapper.toDto(savedSession);
     }
 }

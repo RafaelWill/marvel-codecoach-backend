@@ -40,7 +40,6 @@ public class PersonServiceImplementation implements PersonService {
         if (repository.existsByUserCredentialEmail(person.getEmail())) {
             throw new IllegalArgumentException("Person could not be stored in the system");
         }
-        person.getUserCredential().addRole(Role.COACHEE); // TODO: why isn't this added by default in the constructor? Try to push as much logic as possible in the entities.
         return repository.save(person);
     }
 
@@ -59,19 +58,15 @@ public class PersonServiceImplementation implements PersonService {
         return repository.findAllByUserCredentialRoles(Role.COACH);
     }
 
-    private void validateInputBecomeCoach(List<CoachingTopic> topics, UUID personId) {
     @Override
     public Person getByEmail(String email) {
         return repository.findByUserCredential_Email(email);
     }
 
-    private void validateInputBecomeCoach(List<CoachingTopic> topics, String motivation, UUID personId) {
+    private void validateInputBecomeCoach(List<CoachingTopic> topics, UUID personId) {
+
         if (topics == null || topics.isEmpty()) {
             throw new IllegalArgumentException("No topics provided");
-        }
-
-        if (motivation == null || motivation.isBlank()) {
-            throw new IllegalArgumentException("No motivation provided");
         }
 
         if (personId == null) {

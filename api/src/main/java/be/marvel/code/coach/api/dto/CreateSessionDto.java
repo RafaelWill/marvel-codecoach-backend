@@ -1,7 +1,5 @@
 package be.marvel.code.coach.api.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.UUID;
 
 public class CreateSessionDto {
