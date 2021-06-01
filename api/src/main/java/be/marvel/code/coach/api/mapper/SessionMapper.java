@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class SessionMapper {
@@ -29,5 +31,15 @@ public class SessionMapper {
                 LocalDateTime.of(LocalDate.parse(createSessionDto.getDate(), formatter), LocalTime.parse(createSessionDto.getTime()) ),
                 createSessionDto.getLocation(),
                 createSessionDto.getRemarks());
+    }
+
+    public Map<String,String> getMailMapToSession(Session session, String name){
+        Map<String,String> result = new HashMap<>();
+        result.put("name", name);
+        result.put("topic", session.getCoachingtopic().getTopic());
+        result.put("sessionMoment", session.getSessionMoment().toString());
+        result.put("location", session.getLocation());
+
+        return result;
     }
 }

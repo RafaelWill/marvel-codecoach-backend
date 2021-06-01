@@ -2,6 +2,7 @@ package be.marvel.code.coach.api.controller;
 
 import be.marvel.code.coach.api.dto.CreateSessionDto;
 import be.marvel.code.coach.api.mapper.SessionMapper;
+import be.marvel.code.coach.api.mapper.mail.MailMapper;
 import be.marvel.code.coach.service.service.CoachingTopicService;
 import be.marvel.code.coach.service.service.EmailPrepareService;
 import be.marvel.code.coach.service.service.PersonService;
@@ -25,7 +26,7 @@ public class SessionController {
     private final CoachingTopicService coachingTopicService;
 
     @Autowired
-    public SessionController(SessionServiceImplementation sessionService, EmailPrepareService emailPrepareService, SessionMapper sessionMapper, PersonService personService, CoachingTopicService coachingTopicService){
+    public SessionController(SessionServiceImplementation sessionService, EmailPrepareService emailPrepareService, SessionMapper sessionMapper, PersonService personService, CoachingTopicService coachingTopicService) {
         this.sessionService = sessionService;
         this.emailPrepareService = emailPrepareService;
         this.sessionMapper = sessionMapper;
@@ -37,9 +38,13 @@ public class SessionController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createSession(@RequestBody CreateSessionDto createSessionDto) {
         var savedSession = sessionService.save(sessionMapper.toEntity(createSessionDto,
-                personService.getById(createSessionDto.getCoacheeId()),coachingTopicService.getById(createSessionDto.getTopic())));
+                personService.getById(createSessionDto.getCoacheeId()), coachingTopicService.getById(createSessionDto.getTopic())));
         var coach = savedSession.getCoach();
-        emailPrepareService.sendSessionMail(savedSession.getCoachee().getFirstName(), savedSession.getCoachee().getEmail(), savedSession,"Request a Sesion", "RequestSesion.html");
-        emailPrepareService.sendSessionMail(coach.getFirstName(), coach.getEmail(), savedSession,"There is a request for a coach session", "ReqestedSession.html");
+
+        emailPrepareService.sendMail(sessionMapper.getMailMapToSession(savedSession,savedSession.getCoachee().getFirstName()),
+                savedSession.getCoachee().getEmail(), "Request a Session", "RequestSesion.html");
+
+        emailPrepareService.sendMail(sessionMapper.getMailMapToSession(savedSession,coach.getFirstName()),
+                coach.getEmail(), "There is a request for a coach session", "ReqestedSession.html");
     }
 }

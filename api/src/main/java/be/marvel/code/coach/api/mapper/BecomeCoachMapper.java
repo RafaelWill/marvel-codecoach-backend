@@ -5,10 +5,7 @@ import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 public class BecomeCoachMapper {
@@ -22,5 +19,20 @@ public class BecomeCoachMapper {
         }
 
         return topicList;
+    }
+
+    public Map<String,String> getMailMapToCoach(Person coach){
+        Map<String,String> result = new HashMap<>();
+        result.put("firstname", coach.getFirstName());
+
+        return result;
+    }
+
+    public Map<String,String> getMailMapToAdmin(Person coach,String motivation){
+        Map<String,String> result = new HashMap<>();
+        result.put("email", coach.getEmail());
+        result.put("motivation", motivation);
+
+        return result;
     }
 }

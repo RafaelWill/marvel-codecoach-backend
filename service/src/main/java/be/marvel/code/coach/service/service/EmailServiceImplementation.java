@@ -26,8 +26,6 @@ public class EmailServiceImplementation implements EmailService {
         this.javaMailSender.send(createMessage(to, title, body));
     }
 
-
-    // TODO: SRP -> creating a message and sending one are 2 different responsibilities
     private MimeMessage createMessage(String to, String title, String body) {
         MimeMessage message = this.javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);

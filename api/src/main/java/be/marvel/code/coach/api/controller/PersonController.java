@@ -5,6 +5,7 @@ import be.marvel.code.coach.api.dto.CreatePersonDto;
 import be.marvel.code.coach.api.dto.PersonDto;
 import be.marvel.code.coach.api.mapper.BecomeCoachMapper;
 import be.marvel.code.coach.api.mapper.PersonMapper;
+import be.marvel.code.coach.api.mapper.mail.MailMapper;
 import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.service.service.EmailPrepareService;
 import be.marvel.code.coach.service.service.PersonService;
@@ -28,13 +29,15 @@ public class PersonController {
     private final PersonMapper personMapper;
     private final BecomeCoachMapper becomeCoachMapper;
     private final EmailPrepareService emailPrepareService;
+    private final MailMapper mailMapper;
 
     @Autowired
-    public PersonController(PersonService personService, PersonMapper personMapper, BecomeCoachMapper becomeCoachMapper, EmailPrepareService emailPrepareService) {
+    public PersonController(PersonService personService, PersonMapper personMapper, BecomeCoachMapper becomeCoachMapper, EmailPrepareService emailPrepareService, MailMapper mailMapper) {
         this.personService = personService;
         this.personMapper = personMapper;
         this.becomeCoachMapper = becomeCoachMapper;
         this.emailPrepareService = emailPrepareService;
+        this.mailMapper = mailMapper;
     }
 
 
@@ -42,8 +45,11 @@ public class PersonController {
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
         var savedPerson = personService.save(personMapper.toEntity(createPersonDto));
-        emailPrepareService.sendSimpleEmail(savedPerson.getFirstName(), savedPerson.getEmail(), "Welcome", "welcome.html");
-        return personMapper.toDto(savedPerson);
+        var returnValue = personMapper.toDto(savedPerson);
+
+        emailPrepareService.sendMail(mailMapper.mapObject(returnValue), savedPerson.getEmail(), "Welcome", "welcome.html");
+
+        return returnValue;
     }
 
     @GetMapping(path = "/{id}")
@@ -57,8 +63,9 @@ public class PersonController {
     public void becomeCoach(@PathVariable UUID coachId, @RequestBody BecomeCoachDto dto) {
         Person coach = personService.getById(coachId);
         var person = personService.becomeCoach(becomeCoachMapper.toEntityList(dto, coach), coachId);
-        emailPrepareService.sendSimpleEmail(person.getFirstName(), person.getEmail(), "Become a coach", "becomeCoach.html");
-        emailPrepareService.sendSimpleEmailAndMotivation(personService.getById(coachId).getEmail(), dto.getMotivation(), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
+
+        emailPrepareService.sendMail(becomeCoachMapper.getMailMapToCoach(person), person.getEmail(), "Become a coach", "becomeCoach.html");
+        emailPrepareService.sendMail(becomeCoachMapper.getMailMapToAdmin(person,dto.getMotivation()), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
     }
 
     @GetMapping(path = "/coaches")
