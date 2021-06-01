@@ -1,11 +1,13 @@
 package be.marvel.code.coach.api.dto;
 
+import be.marvel.code.coach.api.constraints.ExtraTopicsAndExtraGradesHaveSameSize;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@ExtraTopicsAndExtraGradesHaveSameSize// TODO refactor frontend so this can be a lot easier: 1 coachingTopics list with @Size(min = 1)
 public class BecomeCoachDto {
     @NotBlank
     private String motivation;
@@ -15,9 +17,9 @@ public class BecomeCoachDto {
     @Range(min = 1, max = 6)
     private Integer grade;
     @NotNull
-    private List<String> extraTopics;// TODO custom validation for inner strings
+    private List<@NotBlank String> extraTopics;
     @NotNull
-    private List<Integer> extraGrades;
+    private List<@NotNull @Range(min = 1, max = 6) Integer> extraGrades;
 
     public BecomeCoachDto() {
     }
