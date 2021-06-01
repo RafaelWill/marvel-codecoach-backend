@@ -61,6 +61,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .claim("userId", user.getId().toString())
                 .compact();
 
+        response.addHeader("Access-Control-Expose-Headers", "Authorization"); // exposes header
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
     }
     
