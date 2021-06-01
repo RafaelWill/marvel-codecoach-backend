@@ -1,12 +1,22 @@
 package be.marvel.code.coach.api.dto;
 
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class BecomeCoachDto {
+    @NotBlank
     private String motivation;
+    @NotBlank
     private String topic;
+    @NotNull
+    @Range(min = 1, max = 6)
     private Integer grade;
-    private List<String> extraTopics;
+    @NotNull
+    private List<String> extraTopics;// TODO custom validation for inner strings
+    @NotNull
     private List<Integer> extraGrades;
 
     public BecomeCoachDto() {

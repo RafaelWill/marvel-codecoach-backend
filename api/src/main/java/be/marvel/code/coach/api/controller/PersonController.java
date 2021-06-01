@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,7 +63,7 @@ public class PersonController {
     @PreAuthorize("hasAuthority('BECOME_COACH')")
     @PostMapping(path = "/{coachId}/become-coach")
     @ResponseStatus(HttpStatus.CREATED)
-    public void becomeCoach(@PathVariable UUID coachId, @RequestBody BecomeCoachDto dto) {
+    public void becomeCoach(@PathVariable UUID coachId, @Valid @RequestBody BecomeCoachDto dto) {
         Person coach = personService.getById(coachId);
         var person = personService.becomeCoach(becomeCoachMapper.toEntityList(dto, coach), coachId);
 
