@@ -9,7 +9,7 @@ import java.util.UUID;
 public class SessionDto {
 
     private UUID id;
-    private Person coachee;
+    private UUID coacheeId;
     private CoachingTopic coachingtopic;
     private LocalDateTime sessionMoment;
     private String location;
@@ -22,8 +22,8 @@ public class SessionDto {
         return id;
     }
 
-    public Person getCoachee() {
-        return coachee;
+    public UUID getCoacheeId() {
+        return coacheeId;
     }
 
     public CoachingTopic getCoachingtopic() {
@@ -47,8 +47,8 @@ public class SessionDto {
         return this;
     }
 
-    public SessionDto setCoachee(Person coachee) {
-        this.coachee = coachee;
+    public SessionDto setCoachee(UUID coacheeId) {
+        this.coacheeId = coacheeId;
         return this;
     }
 
