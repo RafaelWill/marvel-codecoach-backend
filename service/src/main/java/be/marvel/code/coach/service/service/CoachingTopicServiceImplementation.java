@@ -5,6 +5,7 @@ import be.marvel.code.coach.domain.repository.CoachingTopicRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,5 +21,10 @@ public class CoachingTopicServiceImplementation implements CoachingTopicService{
     @Override
     public CoachingTopic getById(UUID id) {
         return coachingTopicRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Topic not found"));
+    }
+
+    @Override
+    public List<CoachingTopic> getAllTopicsFromCoach(UUID coachId) {
+        return coachingTopicRepository.findAllByCoach_Id(coachId);
     }
 }

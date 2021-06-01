@@ -47,7 +47,7 @@ public class SessionMapper {
     public SessionDto toDto(Session session) {
         return new SessionDto()
                 .setId(session.getId())
-                .setCoachee(session.getCoachee())
+                .setCoachee(session.getCoachee().getId())
                 .setCoachingtopic(session.getCoachingtopic())
                 .setSessionMoment(session.getSessionMoment())
                 .setLocation(session.getLocation())

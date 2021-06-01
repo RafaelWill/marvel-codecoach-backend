@@ -1,5 +1,6 @@
 package be.marvel.code.coach.domain.repository;
 
+import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.domain.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,5 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
     boolean existsByUserCredentialEmail(String email);
     List<Person> findAllByUserCredentialRoles(Role role);
     Person findByUserCredential_Email(String email);
+
 }
