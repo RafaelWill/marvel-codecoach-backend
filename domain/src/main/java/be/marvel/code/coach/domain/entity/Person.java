@@ -78,6 +78,10 @@ public class Person {
         return lastName;
     }
 
+    public UserCredential getUserCredential() {
+        return userCredential;
+    }
+
     public void addTopic(CoachingTopic topic) {
         topics.add(topic);
     }

@@ -1,6 +1,7 @@
 package be.marvel.code.coach.api.controller;
 
 import be.marvel.code.coach.api.dto.CreateSessionDto;
+import be.marvel.code.coach.api.dto.SessionDto;
 import be.marvel.code.coach.api.mapper.SessionMapper;
 import be.marvel.code.coach.api.mapper.mail.MailMapper;
 import be.marvel.code.coach.service.service.CoachingTopicService;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,9 +36,10 @@ public class SessionController {
         this.coachingTopicService = coachingTopicService;
     }
 
+    @PreAuthorize("hasAuthority('REQUEST_SESSION')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createSession(@RequestBody CreateSessionDto createSessionDto) {
+    public SessionDto createSession(@RequestBody CreateSessionDto createSessionDto) {
         var savedSession = sessionService.save(sessionMapper.toEntity(createSessionDto,
                 personService.getById(createSessionDto.getCoacheeId()), coachingTopicService.getById(createSessionDto.getTopic())));
         var coach = savedSession.getCoach();
@@ -46,5 +49,7 @@ public class SessionController {
 
         emailPrepareService.sendMail(sessionMapper.getMailMapToSession(savedSession,coach.getFirstName()),
                 coach.getEmail(), "There is a request for a coach session", "ReqestedSession.html");
+
+        return sessionMapper.toDto(savedSession);
     }
 }

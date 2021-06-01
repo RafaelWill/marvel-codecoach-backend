@@ -1,6 +1,7 @@
 package be.marvel.code.coach.api.mapper;
 
 import be.marvel.code.coach.api.dto.CreateSessionDto;
+import be.marvel.code.coach.api.dto.SessionDto;
 import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.domain.entity.Session;
@@ -41,5 +42,15 @@ public class SessionMapper {
         result.put("location", session.getLocation());
 
         return result;
+    }
+
+    public SessionDto toDto(Session session) {
+        return new SessionDto()
+                .setId(session.getId())
+                .setCoachee(session.getCoachee())
+                .setCoachingtopic(session.getCoachingtopic())
+                .setSessionMoment(session.getSessionMoment())
+                .setLocation(session.getLocation())
+                .setRemarks(session.getRemarks());
     }
 }

@@ -18,4 +18,6 @@ public interface PersonService {
 
     List<Person> getAllCoaches();
 
+    Person getByEmail(String email);
+
 }
