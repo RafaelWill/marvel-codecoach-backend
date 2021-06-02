@@ -91,7 +91,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- mail -->
+        <!-- MAIL -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>

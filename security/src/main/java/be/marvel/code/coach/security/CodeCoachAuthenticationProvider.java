@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,10 +26,12 @@ import java.util.stream.Collectors;
 public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
 
     private final UserCredentialService userCredentialService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public CodeCoachAuthenticationProvider(UserCredentialService userCredentialService) {
+    public CodeCoachAuthenticationProvider(UserCredentialService userCredentialService, PasswordEncoder passwordEncoder) {
         this.userCredentialService = userCredentialService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -44,7 +48,7 @@ public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
 
         if (user != null) {
             String password = authentication.getCredentials().toString();
-            if (password.equals(user.getPassword())) {
+            if (passwordEncoder.matches(password, user.getPassword())) {
                 return new UsernamePasswordAuthenticationToken(
                         user.getEmail(),
                         user.getPassword(),

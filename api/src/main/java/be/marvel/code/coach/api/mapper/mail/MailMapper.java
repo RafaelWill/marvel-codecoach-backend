@@ -1,14 +1,10 @@
 package be.marvel.code.coach.api.mapper.mail;
 
-import be.marvel.code.coach.api.dto.PersonDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 
 @Component
 public class MailMapper {

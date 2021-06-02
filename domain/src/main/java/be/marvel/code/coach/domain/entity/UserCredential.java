@@ -3,6 +3,8 @@ package be.marvel.code.coach.domain.entity;
 import be.marvel.code.coach.infrastructure.util.MailAddressValidator;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.*;
@@ -70,4 +72,5 @@ public class UserCredential {
     public Collection<Role> getRoles() {
         return Collections.unmodifiableCollection(roles);
     }
+
 }
