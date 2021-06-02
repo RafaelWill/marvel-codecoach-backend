@@ -2,8 +2,10 @@ package be.marvel.code.coach.security;
 
 import be.marvel.code.coach.domain.entity.Role;
 import be.marvel.code.coach.domain.entity.UserCredential;
+import be.marvel.code.coach.infrastructure.exceptions.CorrectEmailButWrongPasswordException;
 import be.marvel.code.coach.service.service.UserCredentialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +30,8 @@ public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
         this.userCredentialService = userCredentialService;
     }
 
+
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserCredential user;
@@ -35,7 +39,7 @@ public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
         try {
             user = userCredentialService.getUserByEmail(authentication.getPrincipal().toString());
         } catch (Exception e) {
-            throw new IllegalArgumentException("Email not found in system");
+            throw new AuthenticationCredentialsNotFoundException("Email not found in system");
         }
 
         if (user != null) {
@@ -46,7 +50,7 @@ public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
                         user.getPassword(),
                         rolesToGrantedAuthorities(new ArrayList<>(user.getRoles())));
             } else {
-                throw new IllegalArgumentException("Incorrect password");
+                throw new CorrectEmailButWrongPasswordException("Incorrect password");
             }
         }
 

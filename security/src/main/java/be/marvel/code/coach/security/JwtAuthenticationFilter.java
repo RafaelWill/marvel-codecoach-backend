@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -23,11 +24,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final PersonService personService;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, PersonService personService) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationFailureHandler authenticationFailureHandler, PersonService personService) {
         this.authenticationManager = authenticationManager;
         this.personService = personService ;
 
         setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
+        setAuthenticationFailureHandler(authenticationFailureHandler);
     }
 
     @Override

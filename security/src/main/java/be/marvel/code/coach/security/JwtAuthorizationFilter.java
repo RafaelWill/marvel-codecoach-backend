@@ -1,5 +1,6 @@
 package be.marvel.code.coach.security;
 
+import be.marvel.code.coach.infrastructure.exceptions.AuthenticationCredentialsNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -26,8 +28,11 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, AuthenticationFailureHandler authenticationFailureHandler) {
         super(authenticationManager);
+        this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
     @Override
@@ -35,6 +40,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         var authentication = getAuthentication(request);
 
         if (authentication == null) {
+            authenticationFailureHandler.onAuthenticationFailure(request, response, new AuthenticationCredentialsNotFoundException(""));
             filterChain.doFilter(request, response);
             return;
         }
