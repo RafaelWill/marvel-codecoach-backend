@@ -1,13 +1,14 @@
 package be.marvel.code.coach.api.dto;
 
-import be.marvel.code.coach.api.constraints.ExtraTopicsAndExtraGradesHaveSameSize;
+import be.marvel.code.coach.infrastructure.util.constraints.TwoCollectionsHaveSameSize;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@ExtraTopicsAndExtraGradesHaveSameSize// TODO refactor frontend so this can be a lot easier: 1 coachingTopics list with @Size(min = 1)
+// TODO refactor frontend so this can be a lot easier: 1 coachingTopics list with @Size(min = 1)
+@TwoCollectionsHaveSameSize(first = "extraTopics", second = "extraGrades")
 public class BecomeCoachDto {
     @NotBlank
     private String motivation;

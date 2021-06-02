@@ -44,7 +44,7 @@ public class PersonController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public PersonDto createPerson(@RequestBody CreatePersonDto createPersonDto) {
+    public PersonDto createPerson(@Valid @RequestBody CreatePersonDto createPersonDto) {
         var savedPerson = personService.save(personMapper.toEntity(createPersonDto));
         var returnValue = personMapper.toDto(savedPerson);
 
