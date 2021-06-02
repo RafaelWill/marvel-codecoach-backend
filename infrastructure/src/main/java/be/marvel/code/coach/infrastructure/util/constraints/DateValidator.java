@@ -11,6 +11,7 @@ public class DateValidator implements ConstraintValidator<Date,String> {
     //TODO test
     @Override
     public boolean isValid(String date, ConstraintValidatorContext constraintValidatorContext) {
+        if(date == null) return true;
         try{
             LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             return true;

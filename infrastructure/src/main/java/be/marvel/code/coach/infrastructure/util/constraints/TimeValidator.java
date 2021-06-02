@@ -11,6 +11,7 @@ public class TimeValidator implements ConstraintValidator<Time,String> {
     //TODO test
     @Override
     public boolean isValid(String time, ConstraintValidatorContext constraintValidatorContext) {
+        if(time == null) return true;
         try{
             LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
             return true;
