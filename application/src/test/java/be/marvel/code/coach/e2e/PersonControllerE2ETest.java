@@ -55,6 +55,7 @@ class PersonControllerE2ETest {
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .as(PersonDto.class);
+
         //THEN
         Assertions.assertThat(actualResult.getFirstName()).isEqualTo(createPersonDto.getFirstName());
         Assertions.assertThat(actualResult.getLastName()).isEqualTo(createPersonDto.getLastName());
@@ -180,7 +181,7 @@ class PersonControllerE2ETest {
     private CreatePersonDto createPersonFactory() {
         CreateUserCredentialDto createUserCredentialDto = new CreateUserCredentialDto()
                 .setEmail("fake@mail.com")
-                .setPassword("P@sswordTest");
+                .setPassword("PasswordTest1");
 
         return new CreatePersonDto()
                 .setUserCredential(createUserCredentialDto)

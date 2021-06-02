@@ -17,15 +17,18 @@ class OnAuthenticationFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         switch (e.getClass().getSimpleName()) {
             case "CorrectEmailButWrongPasswordException":
+               // httpServletResponse.setStatus(HttpStatus.I_AM_A_TEAPOT.value());
                 sendErrorResponse(httpServletResponse, HttpStatus.I_AM_A_TEAPOT, "WRONG_PASSWORD");
                 break;
             case "AuthenticationCredentialsNotFoundException":
             case "BadCredentialsException":
+                //httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
                 sendErrorResponse(httpServletResponse, HttpStatus.UNAUTHORIZED, "USER_UNKNOWN");
                 break;
             default:
                 System.out.println("ERROR: " + e.getClass().getSimpleName());
                 sendErrorResponse(httpServletResponse, HttpStatus.FORBIDDEN, e.getClass().getSimpleName());
+                //httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());
         }
     }
 

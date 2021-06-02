@@ -28,11 +28,8 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final AuthenticationFailureHandler authenticationFailureHandler;
-
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, AuthenticationFailureHandler authenticationFailureHandler) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
-        this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
     @Override
@@ -40,7 +37,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         var authentication = getAuthentication(request);
 
         if (authentication == null) {
-            authenticationFailureHandler.onAuthenticationFailure(request, response, new AuthenticationCredentialsNotFoundException(""));
             filterChain.doFilter(request, response);
             return;
         }
