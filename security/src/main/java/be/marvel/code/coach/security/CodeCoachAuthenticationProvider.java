@@ -46,6 +46,7 @@ public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationCredentialsNotFoundException("Email not found in system");
         }
 
+
         if (user != null) {
             String password = authentication.getCredentials().toString();
             if (passwordEncoder.matches(password, user.getPassword())) {
