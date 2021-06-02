@@ -1,9 +1,15 @@
 package be.marvel.code.coach.api.dto;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 public class CreatePersonDto {
 
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @Valid
     private CreateUserCredentialDto userCredential;
 
     public CreatePersonDto() {
