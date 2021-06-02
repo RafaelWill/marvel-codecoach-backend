@@ -72,4 +72,5 @@ public class UserCredential {
     public Collection<Role> getRoles() {
         return Collections.unmodifiableCollection(roles);
     }
+
 }

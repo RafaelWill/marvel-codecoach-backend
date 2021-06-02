@@ -12,7 +12,6 @@ import be.marvel.code.coach.security.LoginDto;
 import be.marvel.code.coach.service.service.PersonService;
 import io.restassured.http.ContentType;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -79,7 +78,7 @@ class PersonControllerE2ETest {
 
         LoginDto login = new LoginDto()
                 .setEmail(person.getUserCredential().getEmail())
-                .setPassword(person.getUserCredential().getPassword());
+                .setPassword("P@sswordTest");
 
         var token = authenticate(login);
 
@@ -109,7 +108,7 @@ class PersonControllerE2ETest {
 
         LoginDto login = new LoginDto()
                 .setEmail(person.getUserCredential().getEmail())
-                .setPassword(person.getUserCredential().getPassword());
+                .setPassword("P@sswordTest");
         var token = authenticate(login);
 
         //WHEN
@@ -142,7 +141,7 @@ class PersonControllerE2ETest {
 
         LoginDto login = new LoginDto()
                 .setEmail(person.getUserCredential().getEmail())
-                .setPassword(person.getUserCredential().getPassword());
+                .setPassword("P@sswordTest");
         var token = authenticate(login);
 
         //WHEN
@@ -190,7 +189,7 @@ class PersonControllerE2ETest {
     }
 
     private Person personFactory() {
-        UserCredential userCredential = new UserCredential("fake@gmail.com","P@sswordTest");
+        UserCredential userCredential = new UserCredential("fake@gmail.com","$2a$09$LcwM9Ef3.ZAeIyfSxXFkU.lHhy/5iY2jbQ21NilnJa43TwP3Jx8ne");
 
         return new Person(userCredential, "firstnameE2E","lastnameE2E");
     }

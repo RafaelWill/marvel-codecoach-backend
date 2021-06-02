@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,8 +42,8 @@ public class SessionControllerE2ETest {
     void createSession_givenValidParameters_thenCreateASession() {
         //GIVEN
         UserCredential coachCredentials = new UserCredential("coach@codecoach.be","P@ssword1");
-        Person coachPerson = new Person(coachCredentials,"Uncle","Bob");
-        Person savedCoach = personService.save(coachPerson);
+        Person coach = new Person(coachCredentials,"Uncle","Bob");
+        Person savedCoach = personService.save(coach);
         List<CoachingTopic> topicList = List.of(new CoachingTopic(savedCoach, "Java", 6));
         savedCoach = personService.becomeCoach(topicList, savedCoach.getId());
 
@@ -50,7 +52,7 @@ public class SessionControllerE2ETest {
 
         LoginDto login = new LoginDto()
                 .setEmail(coachee.getUserCredential().getEmail())
-                .setPassword(coachee.getUserCredential().getPassword());
+                .setPassword("P@sswordTest");
         var token = authenticate(login);
 
         CreateSessionDto createSessionDto = createSessionFactory(savedCoach.getId(), savedCoachee.getId());
@@ -72,7 +74,7 @@ public class SessionControllerE2ETest {
 
         //THEN
         Assertions.assertThat(actualResult.getCoacheeId()).isEqualTo(savedCoachee.getId());
-        Assertions.assertThat(actualResult.getCoachingtopic().getCoach().getId()).isEqualTo(coachPerson.getId());
+        Assertions.assertThat(actualResult.getCoachingtopic().getCoach().getId()).isEqualTo(coach.getId());
         Assertions.assertThat(actualResult.getId()).isInstanceOf(UUID.class);
     }
 
@@ -113,7 +115,7 @@ public class SessionControllerE2ETest {
     }
 
     private Person personFactory() {
-        UserCredential userCredential = new UserCredential("fake@gmail.com","P@sswordTest");
+        UserCredential userCredential = new UserCredential("fake@gmail.com","$2a$09$LcwM9Ef3.ZAeIyfSxXFkU.lHhy/5iY2jbQ21NilnJa43TwP3Jx8ne");
 
         return new Person(userCredential, "firstnameE2E","lastnameE2E");
     }
