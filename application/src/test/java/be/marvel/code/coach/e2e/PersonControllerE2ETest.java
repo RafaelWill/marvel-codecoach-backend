@@ -64,7 +64,6 @@ class PersonControllerE2ETest {
     }
 
     @Test
-    @Sql("/sql/InsertCoachee.sql")
     void BecomeCoach_givenValidParameters_thenAddTopicsAndCoachRoleToDatabase(){
         //GIVEN
         Person person = personFactory();
@@ -95,10 +94,6 @@ class PersonControllerE2ETest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.CREATED.value());
-
-
-//        var p = personService.getById(UUID.fromString(personUuid));
-//        Assertions.assertThat(p.getTopics()).hasSize(1);
     }
 
     @Test
