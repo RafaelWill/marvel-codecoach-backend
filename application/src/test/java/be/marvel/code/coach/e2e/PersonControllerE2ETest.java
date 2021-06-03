@@ -79,7 +79,7 @@ class PersonControllerE2ETest {
 
         LoginDto login = new LoginDto()
                 .setEmail(person.getUserCredential().getEmail())
-                .setPassword("Passw0rdTest");
+                .setPassword("P@sswordTest");
 
         var token = authenticate(login);
 
