@@ -13,7 +13,7 @@ public class TimeValidator implements ConstraintValidator<Time,String> {
     public boolean isValid(String time, ConstraintValidatorContext constraintValidatorContext) {
         if(time == null) return true;
         try{
-            LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
+            LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
             return true;
         } catch (DateTimeParseException ex){
             return false;
