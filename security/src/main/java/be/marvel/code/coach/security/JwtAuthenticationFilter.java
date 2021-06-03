@@ -52,6 +52,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new IllegalArgumentException("Email not found in system");
         }
 
+
         var token = Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(SecurityConstants.JWT_SECRET.getBytes()), SignatureAlgorithm.HS512)
                 .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
