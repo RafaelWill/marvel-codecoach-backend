@@ -1,12 +1,26 @@
 package be.marvel.code.coach.api.dto;
 
+import be.marvel.code.coach.infrastructure.util.constraints.Date;
+import be.marvel.code.coach.infrastructure.util.constraints.DateAndTimeAreInTheFuture;
+import be.marvel.code.coach.infrastructure.util.constraints.Time;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+@DateAndTimeAreInTheFuture(date = "date", time = "time")
 public class CreateSessionDto {
+    @NotNull
     private UUID topic;
+    @NotNull
     private UUID coacheeId;
+    @NotNull
+    @Date
     private String date;
+    @NotNull
+    @Time
     private String time;
+    @NotBlank
     private String location;
     private String remarks;
 
