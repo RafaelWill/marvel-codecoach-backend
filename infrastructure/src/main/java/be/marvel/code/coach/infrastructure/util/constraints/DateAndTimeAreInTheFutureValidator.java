@@ -27,7 +27,7 @@ public class DateAndTimeAreInTheFutureValidator implements ConstraintValidator<D
             String dateAsString = (String) PropertyUtils.getProperty(object, date);
             String timeAsString = (String) PropertyUtils.getProperty(object, time);
             if (dateAsString == null || timeAsString == null) return true;
-            LocalDateTime datetime = LocalDateTime.parse(dateAsString + " " + timeAsString, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+            LocalDateTime datetime = LocalDateTime.parse(dateAsString + " " + timeAsString, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
             return datetime.isAfter(LocalDateTime.now());
         } catch (DateTimeParseException ex){
             return true;
