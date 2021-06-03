@@ -2,6 +2,7 @@ package be.marvel.code.coach.api.dto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class CreatePersonDto {
 
@@ -9,6 +10,7 @@ public class CreatePersonDto {
     private String firstName;
     @NotBlank
     private String lastName;
+    @NotNull
     @Valid
     private CreateUserCredentialDto userCredential;
 

@@ -61,14 +61,14 @@ public class PersonController {
     }
 
     @PreAuthorize("hasAuthority('BECOME_COACH')")
-    @PostMapping(path = "/{coachId}/become-coach")
+    @PostMapping(path = "/{coacheeId}/become-coach")
     @ResponseStatus(HttpStatus.CREATED)
-    public void becomeCoach(@PathVariable UUID coachId, @Valid @RequestBody BecomeCoachDto dto) {
-        Person coach = personService.getById(coachId);
-        var person = personService.becomeCoach(becomeCoachMapper.toEntityList(dto, coach), coachId);
+    public void becomeCoach(@PathVariable UUID coacheeId, @Valid @RequestBody BecomeCoachDto dto) {
+        Person coachee = personService.getById(coacheeId);
+        var coach = personService.becomeCoach(becomeCoachMapper.toEntityList(dto, coachee), coachee);
 
-        emailPrepareService.sendMail(becomeCoachMapper.getMailMapToCoach(person), person.getEmail(), "Become a coach", "becomeCoach.html");
-        emailPrepareService.sendMail(becomeCoachMapper.getMailMapToAdmin(person,dto.getMotivation()), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
+        emailPrepareService.sendMail(becomeCoachMapper.getMailMapToCoach(coach), coach.getEmail(), "Become a coach", "becomeCoach.html");
+        emailPrepareService.sendMail(becomeCoachMapper.getMailMapToAdmin(coach,dto.getMotivation()), "marvelcodecoach@gmail.com", "Request to become a coach", "becomeCoachAndMotivation.html");
     }
 
     @PreAuthorize("hasAuthority('FIND_COACHES')")

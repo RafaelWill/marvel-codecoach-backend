@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +132,7 @@ class PersonControllerE2ETest {
         Person person = personFactory();
         Person savedPerson = personService.save(person);
         List<CoachingTopic> topicList = List.of(new CoachingTopic(savedPerson, "Java", 6));
-        personService.becomeCoach(topicList , savedPerson.getId());
+        personService.becomeCoach(topicList , savedPerson);
 
         LoginDto login = new LoginDto()
                 .setEmail(person.getUserCredential().getEmail())

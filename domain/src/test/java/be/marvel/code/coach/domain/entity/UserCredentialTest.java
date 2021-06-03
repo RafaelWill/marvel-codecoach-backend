@@ -1,44 +1,29 @@
 package be.marvel.code.coach.domain.entity;
 
-import be.marvel.code.coach.infrastructure.util.MailAddressValidator;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class UserCredentialTest {
 
     @Test
-    void constructorUserCredential_givenInvalidEmailAddress_thenThrowsIllegalArgumentException() {
+    void addRole_givenNewRole_thenNewRoleIsAdded() {
         //GIVEN
-        String invalidEmail = "invalidmail.com";
-        String blankEmail = "   ";
-        String password = "AValidPassword";
-
-        try (MockedStatic<MailAddressValidator> mailAddressValidator = Mockito.mockStatic(MailAddressValidator.class)) {
-            mailAddressValidator.when(() -> MailAddressValidator.isMailAddressValid(invalidEmail)).thenReturn(false);
-            mailAddressValidator.when(() -> MailAddressValidator.isMailAddressValid(blankEmail)).thenReturn(false);
-            mailAddressValidator.when(() -> MailAddressValidator.isMailAddressValid(null)).thenReturn(false);
-        }
-
+        UserCredential userCredential = new UserCredential("","");
+        //WHEN
+        userCredential.addRole(Role.COACHEE);
         //THEN
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> new UserCredential(invalidEmail, password));
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> new UserCredential(blankEmail, password));
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> new UserCredential(null, password));
+        assertThat(userCredential.getRoles()).containsExactly(Role.COACHEE);
     }
 
     @Test
-    void constructorUserCredential_givenInvalidPassword_thenThrowsIllegalArgumentException() {
+    void addRole_givenPreexistingRole_thenRoleIsNotAdded() {
         //GIVEN
-        String blankPassword = "   ";
-        String email = "valid@mail.com";
-
-        try (MockedStatic<MailAddressValidator> mailAddressValidator = Mockito.mockStatic(MailAddressValidator.class)) {
-            mailAddressValidator.when(() -> MailAddressValidator.isMailAddressValid(email)).thenReturn(true);
-        }
-
+        UserCredential userCredential = new UserCredential("","");
+        //WHEN
+        userCredential.addRole(Role.COACHEE);
+        userCredential.addRole(Role.COACHEE);
         //THEN
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> new UserCredential(email, blankPassword));
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> new UserCredential(email, null));
+        assertThat(userCredential.getRoles()).containsExactly(Role.COACHEE);
     }
 }

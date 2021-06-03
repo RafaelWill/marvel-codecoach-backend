@@ -41,10 +41,6 @@ public class CoachingTopic {
         return id;
     }
 
-//    public UUID getPersonid() {
-//        return personid;
-//    }
-
     public String getTopic() {
         return topic;
     }

@@ -4,9 +4,7 @@ import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.domain.entity.Role;
 import be.marvel.code.coach.domain.repository.PersonRepository;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -44,13 +42,13 @@ public class PersonServiceImplementation implements PersonService {
     }
 
     @Override
-    public Person becomeCoach(List<CoachingTopic> topics, UUID personId) {
-        validateInputBecomeCoach(topics, personId);
-
-        Person person = getById(personId);
-        person.becomeCoach(topics);
-
-        return person;
+    public Person becomeCoach(List<CoachingTopic> topics, Person person) {
+        Person personWithRoles = getById(person.getId());
+        if (personWithRoles.hasRole(Role.COACH)) {
+            throw new IllegalArgumentException("Person already is a coach");//TODO : change exception to a custom
+        }
+        personWithRoles.becomeCoach(topics);
+        return personWithRoles;
     }
 
     @Override
@@ -61,20 +59,5 @@ public class PersonServiceImplementation implements PersonService {
     @Override
     public Person getByEmail(String email) {
         return repository.findByUserCredential_Email(email);
-    }
-
-    private void validateInputBecomeCoach(List<CoachingTopic> topics, UUID personId) {
-
-        if (topics == null || topics.isEmpty()) {
-            throw new IllegalArgumentException("No topics provided");
-        }
-
-        if (personId == null) {
-            throw new IllegalArgumentException("No personId provided");
-        }
-
-        if (getById(personId).hasRole(Role.COACH)) {
-            throw new IllegalArgumentException("Person already is a coach");//TODO : change exception to a custom
-        }
     }
 }

@@ -1,13 +1,12 @@
 package be.marvel.code.coach.domain.entity;
 
-import be.marvel.code.coach.infrastructure.util.MailAddressValidator;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "usercredential")
@@ -32,30 +31,21 @@ public class UserCredential {
     @CollectionTable(name = "userrole", joinColumns = @JoinColumn(name = "usercredentialid"))
     @Column(name = "rolename")
     @Enumerated(EnumType.STRING)
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
     public UserCredential() {
     }
 
     public UserCredential(String email, String password) {
-        validateInput(email, password);
         this.email = email;
         this.password = password;
-        roles = new ArrayList<Role>();
+        roles = new HashSet<>();
     }
 
-    private void validateInput(String email, String password) {
-        if (email == null || email.isBlank() || !MailAddressValidator.isMailAddressValid(email)) {
-            throw new IllegalArgumentException("Provided email not valid.");
-        }
-        if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Provided password not valid.");
-        }
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
-    public UUID getId() {
-        return id;
-    }
 
     public String getEmail() {
         return email;
@@ -65,12 +55,8 @@ public class UserCredential {
         return password;
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
-    }
-
-    public Collection<Role> getRoles() {
-        return Collections.unmodifiableCollection(roles);
+    public Set<Role> getRoles() {
+        return Collections.unmodifiableSet(roles);
     }
 
 }

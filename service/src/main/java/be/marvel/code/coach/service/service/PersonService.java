@@ -14,7 +14,7 @@ public interface PersonService {
 
     Person save(Person person);
 
-    Person becomeCoach(List<CoachingTopic> topics, UUID personId);
+    Person becomeCoach(List<CoachingTopic> topics, Person coach);
 
     List<Person> getAllCoaches();
 
