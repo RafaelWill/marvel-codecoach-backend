@@ -8,6 +8,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,8 +29,11 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
+    private final OnAuthenticationFailureHandler authenticationFailureHandler;
+
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
+        this.authenticationFailureHandler = new OnAuthenticationFailureHandler();
     }
 
     @Override
@@ -37,6 +41,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         var authentication = getAuthentication(request);
 
         if (authentication == null) {
+            authenticationFailureHandler.onAuthenticationFailure(request, response, new BadCredentialsException("The provided credentials were invalid"));
             filterChain.doFilter(request, response);
             return;
         }
