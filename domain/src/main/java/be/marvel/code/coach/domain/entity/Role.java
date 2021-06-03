@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum Role {
     COACHEE(Feature.FIND_PERSON_BY_ID, Feature.BECOME_COACH, Feature.FIND_COACHES, Feature.REQUEST_SESSION),
-    COACH(Feature.FIND_PERSON_BY_ID, Feature.FIND_COACHES),
+    COACH(Feature.FIND_PERSON_BY_ID, Feature.FIND_COACHES, Feature.REQUEST_SESSION),
     ADMIN;
 
     private final List<Feature> featureList;

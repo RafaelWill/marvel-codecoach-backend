@@ -65,7 +65,13 @@ public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
     }
 
     private Collection<? extends GrantedAuthority> rolesToGrantedAuthorities(List<Role> roles) {
-        return roles.stream()
+        List<Role> correctedRoles = new ArrayList<>(roles);
+
+        if (roles.contains(Role.COACHEE) && roles.contains(Role.COACH)){ //TODO improve this
+            correctedRoles.remove(Role.COACHEE);
+        }
+
+        return correctedRoles.stream()
                 .flatMap(role -> role.getFeatureList().stream())
                 .map(Enum::name).distinct()
                 .map(SimpleGrantedAuthority::new)
