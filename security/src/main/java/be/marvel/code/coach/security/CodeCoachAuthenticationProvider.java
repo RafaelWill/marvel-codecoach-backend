@@ -34,8 +34,6 @@ public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserCredential user;
@@ -45,7 +43,6 @@ public class CodeCoachAuthenticationProvider implements AuthenticationProvider {
         } catch (Exception e) {
             throw new AuthenticationCredentialsNotFoundException("Email not found in system");
         }
-
 
         if (user != null) {
             String password = authentication.getCredentials().toString();

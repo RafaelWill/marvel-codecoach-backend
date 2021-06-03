@@ -5,7 +5,7 @@ import java.util.UUID;
 public class CoachingTopicDto {
 
     private UUID id;
-    private UUID personid;
+    private UUID coachId;
     private String topic;
     private int grade;
 
@@ -16,8 +16,8 @@ public class CoachingTopicDto {
         return id;
     }
 
-    public UUID getPersonid() {
-        return personid;
+    public UUID getCoachId() {
+        return coachId;
     }
 
     public String getTopic() {
@@ -33,8 +33,8 @@ public class CoachingTopicDto {
         return this;
     }
 
-    public CoachingTopicDto setPersonid(UUID personid) {
-        this.personid = personid;
+    public CoachingTopicDto setCoachId(UUID coachId) {
+        this.coachId = coachId;
         return this;
     }
 

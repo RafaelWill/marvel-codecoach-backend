@@ -5,8 +5,6 @@ import be.marvel.code.coach.api.dto.SessionDto;
 import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.domain.entity.Session;
-import be.marvel.code.coach.service.service.CoachingTopicService;
-import be.marvel.code.coach.service.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +19,11 @@ import java.util.Map;
 public class SessionMapper {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final CoachingTopicMapper coachingTopicMapper;
 
     @Autowired
-    public SessionMapper() {
+    public SessionMapper(CoachingTopicMapper coachingTopicMapper) {
+        this.coachingTopicMapper = coachingTopicMapper;
     }
 
     public Session toEntity(CreateSessionDto createSessionDto, Person coachee, CoachingTopic topic) {
@@ -48,7 +48,7 @@ public class SessionMapper {
         return new SessionDto()
                 .setId(session.getId())
                 .setCoachee(session.getCoachee().getId())
-                .setCoachingtopic(session.getCoachingtopic())
+                .setCoachingTopic(coachingTopicMapper.toDto(session.getCoachingtopic()))
                 .setSessionMoment(session.getSessionMoment())
                 .setLocation(session.getLocation())
                 .setRemarks(session.getRemarks());

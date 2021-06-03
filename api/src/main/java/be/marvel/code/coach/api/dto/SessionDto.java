@@ -1,8 +1,5 @@
 package be.marvel.code.coach.api.dto;
 
-import be.marvel.code.coach.domain.entity.CoachingTopic;
-import be.marvel.code.coach.domain.entity.Person;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -10,7 +7,7 @@ public class SessionDto {
 
     private UUID id;
     private UUID coacheeId;
-    private CoachingTopic coachingtopic;
+    private CoachingTopicDto coachingTopic;
     private LocalDateTime sessionMoment;
     private String location;
     private String remarks;
@@ -26,8 +23,8 @@ public class SessionDto {
         return coacheeId;
     }
 
-    public CoachingTopic getCoachingtopic() {
-        return coachingtopic;
+    public CoachingTopicDto getCoachingTopic() {
+        return coachingTopic;
     }
 
     public LocalDateTime getSessionMoment() {
@@ -52,8 +49,8 @@ public class SessionDto {
         return this;
     }
 
-    public SessionDto setCoachingtopic(CoachingTopic coachingtopic) {
-        this.coachingtopic = coachingtopic;
+    public SessionDto setCoachingTopic(CoachingTopicDto coachingTopic) {
+        this.coachingTopic = coachingTopic;
         return this;
     }
 
