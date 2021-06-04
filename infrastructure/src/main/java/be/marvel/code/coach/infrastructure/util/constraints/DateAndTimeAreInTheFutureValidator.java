@@ -20,7 +20,6 @@ public class DateAndTimeAreInTheFutureValidator implements ConstraintValidator<D
         time = constraintAnnotation.time();
     }
 
-    //TODO test
     @Override
     public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
         try {
