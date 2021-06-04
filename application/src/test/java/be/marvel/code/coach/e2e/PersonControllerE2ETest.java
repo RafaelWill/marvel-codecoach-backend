@@ -76,8 +76,8 @@ class PersonControllerE2ETest {
                 .setExtraGrades(new ArrayList<>());
 
         LoginDto login = new LoginDto()
-                .setEmail(person.getUserCredential().getEmail())
-                .setPassword("P@sswordTest");
+                .setEmail(person.getEmail())
+                .setPassword("PasswordTest1");
 
         var token = authenticate(login);
 
@@ -102,8 +102,8 @@ class PersonControllerE2ETest {
         Person savedPerson = personService.save(person);
 
         LoginDto login = new LoginDto()
-                .setEmail(person.getUserCredential().getEmail())
-                .setPassword("P@sswordTest");
+                .setEmail(person.getEmail())
+                .setPassword("PasswordTest1");
         var token = authenticate(login);
 
         //WHEN
@@ -122,7 +122,7 @@ class PersonControllerE2ETest {
         //THEN
         Assertions.assertThat(actualResult.getFirstName()).isEqualTo(person.getFirstName());
         Assertions.assertThat(actualResult.getLastName()).isEqualTo(person.getLastName());
-        Assertions.assertThat(actualResult.getEmail()).isEqualTo(person.getUserCredential().getEmail());
+        Assertions.assertThat(actualResult.getEmail()).isEqualTo(person.getEmail());
         Assertions.assertThat(actualResult.getId()).isInstanceOf(UUID.class);
     }
 
@@ -135,8 +135,8 @@ class PersonControllerE2ETest {
         personService.becomeCoach(topicList , savedPerson);
 
         LoginDto login = new LoginDto()
-                .setEmail(person.getUserCredential().getEmail())
-                .setPassword("P@sswordTest");
+                .setEmail(person.getEmail())
+                .setPassword("PasswordTest1");
         var token = authenticate(login);
 
         //WHEN
@@ -184,7 +184,7 @@ class PersonControllerE2ETest {
     }
 
     private Person personFactory() {
-        UserCredential userCredential = new UserCredential("fake@gmail.com","$2a$09$LcwM9Ef3.ZAeIyfSxXFkU.lHhy/5iY2jbQ21NilnJa43TwP3Jx8ne");
+        UserCredential userCredential = new UserCredential("fake@gmail.com","$2y$12$OJqIUwDoab6WIy1mu0mz3u6m4LXKnx.y4NxnRouGcKoC9TtDIkTuq");
 
         return new Person(userCredential, "firstnameE2E","lastnameE2E");
     }

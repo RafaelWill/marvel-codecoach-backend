@@ -1,7 +1,8 @@
 package be.marvel.code.coach.e2e;
 
 import be.marvel.code.coach.api.controller.SessionController;
-import be.marvel.code.coach.api.dto.*;
+import be.marvel.code.coach.api.dto.CreateSessionDto;
+import be.marvel.code.coach.api.dto.SessionDto;
 import be.marvel.code.coach.domain.entity.CoachingTopic;
 import be.marvel.code.coach.domain.entity.Person;
 import be.marvel.code.coach.domain.entity.UserCredential;
@@ -17,8 +18,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,21 +34,21 @@ public class SessionControllerE2ETest {
     private PersonService personService;
     @Autowired
     private CoachingTopicService coachingTopicService;
-    /*@Test
+    @Test
     void createSession_givenValidParameters_thenCreateASession() {
         //GIVEN
-        UserCredential coachCredentials = new UserCredential("coach@codecoach.be","P@ssword1");
+        UserCredential coachCredentials = new UserCredential("coach@codecoach.be","PasswordTest1");
         Person coach = new Person(coachCredentials,"Uncle","Bob");
         Person savedCoach = personService.save(coach);
         List<CoachingTopic> topicList = List.of(new CoachingTopic(savedCoach, "Java", 6));
-        savedCoach = personService.becomeCoach(topicList, savedCoach.getId());
+        savedCoach = personService.becomeCoach(topicList, savedCoach);
 
         Person coachee = personFactory();
         Person savedCoachee = personService.save(coachee);
 
         LoginDto login = new LoginDto()
-                .setEmail(coachee.getUserCredential().getEmail())
-                .setPassword("P@sswordTest");
+                .setEmail(coachee.getEmail())
+                .setPassword("PasswordTest1");
         var token = authenticate(login);
 
         CreateSessionDto createSessionDto = createSessionFactory(savedCoach.getId(), savedCoachee.getId());
@@ -71,9 +70,9 @@ public class SessionControllerE2ETest {
 
         //THEN
         Assertions.assertThat(actualResult.getCoacheeId()).isEqualTo(savedCoachee.getId());
-        Assertions.assertThat(actualResult.getCoachingtopic().getCoach().getId()).isEqualTo(coach.getId());
+        Assertions.assertThat(actualResult.getCoachingTopic().getCoachId()).isEqualTo(coach.getId());
         Assertions.assertThat(actualResult.getId()).isInstanceOf(UUID.class);
-    }*/
+    }
 
     private String authenticate(LoginDto loginDto) {
 
@@ -93,26 +92,20 @@ public class SessionControllerE2ETest {
     }
 
     private CreateSessionDto createSessionFactory(UUID coach, UUID coachee){
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String strDate = formatter.format(date);
-        Date time = new Date();
-        formatter = new SimpleDateFormat("HH:mm");
-        String strTime = formatter.format(time);
 
         List<CoachingTopic> topics = coachingTopicService.getAllTopicsFromCoach(coach);
 
         return new CreateSessionDto()
                 .setCoacheeId(coachee)
                 .setTopic(topics.get(0).getId())
-                .setDate(strDate)
-                .setTime(strTime)
+                .setDate("12/12/3012")
+                .setTime("12:12")
                 .setLocation("Online")
                 .setRemarks("Remarks");
     }
 
     private Person personFactory() {
-        UserCredential userCredential = new UserCredential("fake@gmail.com","$2a$09$LcwM9Ef3.ZAeIyfSxXFkU.lHhy/5iY2jbQ21NilnJa43TwP3Jx8ne");
+        UserCredential userCredential = new UserCredential("fake@gmail.com","$2y$12$OJqIUwDoab6WIy1mu0mz3u6m4LXKnx.y4NxnRouGcKoC9TtDIkTuq");
 
         return new Person(userCredential, "firstnameE2E","lastnameE2E");
     }

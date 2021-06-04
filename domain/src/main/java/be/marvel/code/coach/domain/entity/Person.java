@@ -76,10 +76,6 @@ public class Person {
         return lastName;
     }
 
-    public UserCredential getUserCredential() {
-        return userCredential;
-    }
-
     public List<CoachingTopic> getTopics() {
         return Collections.unmodifiableList(topics);
     }
