@@ -1,8 +1,6 @@
 package be.marvel.code.coach.infrastructure.mail;
 
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @Component
@@ -16,7 +14,6 @@ public class HtmlReplace {
         for (var entry : contentValues.entrySet()){
             result = result.replace("{" + entry.getKey() + "}",entry.getValue());
         }
-        //TODO : clean up empty {}
         return result;
     }
 }
