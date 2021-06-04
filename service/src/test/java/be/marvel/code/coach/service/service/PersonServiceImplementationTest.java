@@ -87,7 +87,7 @@ class PersonServiceImplementationTest {
     }
 
     @Nested
-    public class SavePerson {
+    public class Save {
         @Test
         void save_givenCorrectParameter_thenVerifyServiceCallsRepository() {
             //GIVEN
