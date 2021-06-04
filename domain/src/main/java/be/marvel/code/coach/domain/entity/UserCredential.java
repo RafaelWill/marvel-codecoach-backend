@@ -46,6 +46,9 @@ public class UserCredential {
         roles.add(role);
     }
 
+    public boolean hasRole(Role role) {
+        return roles.contains(role);
+    }
 
     public String getEmail() {
         return email;

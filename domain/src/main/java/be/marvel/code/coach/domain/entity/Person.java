@@ -56,7 +56,7 @@ public class Person {
     }
 
     public boolean hasRole(Role role){
-        return userCredential.getRoles().contains(role);
+        return userCredential.hasRole(role);
     }
 
 

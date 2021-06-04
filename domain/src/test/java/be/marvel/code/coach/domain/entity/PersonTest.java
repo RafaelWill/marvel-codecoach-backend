@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PersonTest {
@@ -42,14 +43,42 @@ class PersonTest {
 
     @Nested
     class BecomeCoach{
-       //TODO
+
+        @Test
+        void becomeCoach_givenListOfCoachingTopics_thenAddsListOfTopicsToTopics() {
+            //GIVEN
+            Person person = new Person(mock(UserCredential.class),"","");
+            List<CoachingTopic> mockTopics = List.of(mock(CoachingTopic.class),mock(CoachingTopic.class),mock(CoachingTopic.class));
+            //WHEN
+            person.becomeCoach(mockTopics);
+            //THEN
+            assertThat(person.getTopics()).hasSize(3);
+        }
+
+        @Test
+        void becomeCoach_thenAddsRoleCoach() {
+            //GIVEN
+            UserCredential mockUserCredential = mock(UserCredential.class);
+            Person person = new Person(mockUserCredential,"","");
+            List<CoachingTopic> mockTopics = List.of(mock(CoachingTopic.class),mock(CoachingTopic.class),mock(CoachingTopic.class));
+            //WHEN
+            person.becomeCoach(mockTopics);
+            //THEN
+            verify(mockUserCredential).addRole(Role.COACH);
+        }
     }
 
     @Nested
     class HasRole{
         @Test
-        void hasRole_givenRoleThatHasBeenAdded_thenTrue() {
-        //TODO
+        void hasRole_thenVerifyUserCredentialHasRoleIsUsed() {
+            //GIVEN
+            UserCredential mockUserCredential = mock(UserCredential.class);
+            Person person = new Person(mockUserCredential,"","");
+            //WHEN
+            person.hasRole(any());
+            //THEN
+            verify(mockUserCredential).hasRole(any());
         }
     }
 

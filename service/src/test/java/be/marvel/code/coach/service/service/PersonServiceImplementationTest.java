@@ -80,7 +80,6 @@ class PersonServiceImplementationTest {
         @Test
         void getById_givenPersonDoesNotExist_thenThrowIllegalArgumentException() {
             //GIVEN
-            Person mockPerson = mock(Person.class);
             when(personRepository.findById(any())).thenReturn(Optional.empty());
             //THEN
             Assertions.assertThatIllegalArgumentException().isThrownBy(()->personServiceImplementation.getById(any()));
